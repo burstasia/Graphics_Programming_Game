@@ -45,7 +45,7 @@
 #endif
 
 #ifdef GAME
-
+#include "CourseObjects/Game/Platformer.h"
 #endif
 
 
@@ -101,6 +101,10 @@ void MainGame::Initialize()
 
 #ifdef GEOMSHADER
 	//SceneManager::GetInstance()->AddGameScene(new BezierScene);
+#endif
+
+#ifdef GAME
+	SceneManager::GetInstance()->AddGameScene(new Platformer);
 #endif
 
 }

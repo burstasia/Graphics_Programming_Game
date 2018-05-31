@@ -353,3 +353,9 @@ ASALocalRun/
 
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
+
+#Art Assets
+ArtAssets/*
+
+#Screenshots Errors
+ScreenshotsErrors/*
