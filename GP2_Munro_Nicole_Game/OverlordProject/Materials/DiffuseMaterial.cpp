@@ -1,4 +1,4 @@
-#include "Base/stdafx.h"
+#include "stdafx.h"
 
 #include "DiffuseMaterial.h"
 #include "Graphics/TextureData.h"

@@ -1,4 +1,4 @@
-#include "Base/stdafx.h"
+#include "stdafx.h"
 
 #include "UberMaterial.h"
 #include "Content/ContentManager.h"

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "CharacterTestScene.h"
 #include "Components/Components.h"
 #include "Physx/PhysxManager.h"

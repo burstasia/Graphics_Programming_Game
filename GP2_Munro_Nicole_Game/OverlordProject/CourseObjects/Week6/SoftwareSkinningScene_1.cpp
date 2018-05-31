@@ -1,4 +1,4 @@
-#include "Base/stdafx.h"
+#include "stdafx.h"
 
 #include "SoftwareSkinningScene_1.h"
 #include "./Scenegraph/BoneObject.h"

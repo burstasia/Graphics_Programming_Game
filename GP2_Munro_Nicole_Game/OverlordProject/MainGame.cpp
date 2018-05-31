@@ -14,6 +14,7 @@
 #define W7
 
 #define GEOMSHADER
+#define GAME
 
 #ifdef W1
 //#include "CourseObjects/Week 1/TestScene.h"
@@ -42,6 +43,11 @@
 #ifdef GEOMSHADER
 #include "CourseObjects/GeomShader/BezierScene.h"
 #endif
+
+#ifdef GAME
+
+#endif
+
 
 MainGame::MainGame(void)
 {
@@ -90,7 +96,7 @@ void MainGame::Initialize()
 #endif
 
 #ifdef W7
-	SceneManager::GetInstance()->AddGameScene(new HardwareSkinningScene);
+	//SceneManager::GetInstance()->AddGameScene(new HardwareSkinningScene);
 #endif
 
 #ifdef GEOMSHADER

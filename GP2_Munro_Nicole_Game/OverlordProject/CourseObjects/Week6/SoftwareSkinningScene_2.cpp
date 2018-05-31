@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "SoftwareSkinningScene_2.h"
 #include "./Scenegraph/BoneObject.h"
 #include "../OverlordProject/Materials/ColorMaterial.h"

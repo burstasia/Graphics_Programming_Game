@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "UberMaterialTestScene.h"
 #include "Prefabs\Prefabs.h"
 #include "Components\Components.h"

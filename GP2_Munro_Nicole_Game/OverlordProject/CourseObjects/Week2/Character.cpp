@@ -1,5 +1,5 @@
 //Precompiled Header [ALWAYS ON TOP IN CPP]
-#include "Base/stdafx.h"
+#include "stdafx.h"
 
 #include "Character.h"
 #include "Components\Components.h"
