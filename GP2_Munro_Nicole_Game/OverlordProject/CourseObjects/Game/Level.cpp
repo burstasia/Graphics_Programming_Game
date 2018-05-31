@@ -39,11 +39,8 @@ void Level::Initialize(const GameContext & gameContext)
 
 	AddComponent(pGroundModel);
 
-	/*auto pColorMaterial = new ColorMaterial();
-	pColorMaterial->SetColor(XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f));
+	
 
-	gameContext.pMaterialManager->AddMaterial(pColorMaterial, UINT(34));
-
-	pGroundModel->SetMaterial(UINT(34));*/
+	pGroundModel->SetMaterial(0);
 
 }

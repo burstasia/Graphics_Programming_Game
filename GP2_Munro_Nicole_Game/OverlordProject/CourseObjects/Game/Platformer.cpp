@@ -11,6 +11,7 @@
 
 #include "Level.h"
 
+#include "../Week2/Character.h"
 
 Platformer::Platformer():
 	GameScene(L"SpyroScene")
@@ -31,34 +32,23 @@ void Platformer::Initialize(const GameContext & gameContext)
 
 	GetPhysxProxy()->EnablePhysxDebugRendering(true);
 
+	auto pColorMaterial = new ColorMaterial();
+	pColorMaterial->SetColor(XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f));
+
+	gameContext.pMaterialManager->AddMaterial(pColorMaterial, UINT(0));
+
 	//GROUND
 	auto pGround = new Level();
 
 	pGround->Initialize(gameContext);
 
 	AddChild(pGround);
-	/*pGround->AddComponent(new RigidBodyComponent(true));
-
-	auto geom(ContentManager::Load<PxTriangleMesh>(L"Resources/Meshes/floor.ovpt"));
-  
-	std::shared_ptr<PxGeometry> geometry(new PxTriangleMeshGeometry(geom));
-
-	pGround->AddComponent(new ColliderComponent(geometry, *bouncyMaterial));
-
-
-	auto pGroundModel = new ModelComponent(L"Resources/Meshes/floor.ovm");
-
-	pGround->AddComponent(pGroundModel);
-
-	auto pColorMaterial = new ColorMaterial();
-	pColorMaterial->SetColor(XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f));
-
-	gameContext.pMaterialManager->AddMaterial(pColorMaterial, UINT(0));
-
-	pGroundModel->SetMaterial(UINT(0));*/
-
 	
-	
+	//CHARACTER
+	auto chara = new Character();
+	AddChild(chara);
+
+
 }
 
 void Platformer::Update(const GameContext & gameContext)
