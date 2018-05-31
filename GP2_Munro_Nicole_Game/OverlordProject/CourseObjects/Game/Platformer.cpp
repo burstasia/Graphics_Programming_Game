@@ -25,22 +25,11 @@ Platformer::~Platformer()
 
 void Platformer::Initialize(const GameContext & gameContext)
 {
-
-	//PHYSX
-	//auto physX = PhysxManager::GetInstance()->GetPhysics();
-	//auto bouncyMaterial = physX->createMaterial(0.5, 0.5, 1.0f);
-
 	GetPhysxProxy()->EnablePhysxDebugRendering(true);
 
-	auto pColorMaterial = new ColorMaterial();
-	pColorMaterial->SetColor(XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f));
-
-	gameContext.pMaterialManager->AddMaterial(pColorMaterial, UINT(0));
 
 	//GROUND
 	auto pGround = new Level();
-
-	pGround->Initialize(gameContext);
 
 	AddChild(pGround);
 	
