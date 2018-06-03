@@ -29,13 +29,14 @@ void Platformer::Initialize(const GameContext & gameContext)
 
 
 	//GROUND
-	auto pGround = new Level();
-
-	AddChild(pGround);
+	//auto pGround = new Level();
+	m_Level = new Level();
+	AddChild(m_Level);
 	
 	//CHARACTER
-	auto chara = new Character();
-	AddChild(chara);
+	//auto chara = new Character();
+	m_Character = new Character();
+	AddChild(m_Character);
 
 
 }
@@ -43,6 +44,8 @@ void Platformer::Initialize(const GameContext & gameContext)
 void Platformer::Update(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
+
+	m_Level->Update(gameContext.pGameTime->GetElapsed(), m_Character);
 }
 
 void Platformer::Draw(const GameContext & gameContext)

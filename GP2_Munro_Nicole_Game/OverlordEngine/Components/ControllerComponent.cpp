@@ -77,7 +77,7 @@ void ControllerComponent::Initialize(const GameContext& gameContext)
 
 	//5. Set the controller's actor's userdata > This Component
 	m_pController->setUserData(this);
-
+	m_pController->getActor()->userData = this;
 
 	SetCollisionGroup((CollisionGroupFlag)m_CollisionGroups.word0);
 	SetCollisionIgnoreGroups((CollisionGroupFlag)m_CollisionGroups.word1);

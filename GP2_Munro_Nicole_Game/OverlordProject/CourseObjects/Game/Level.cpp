@@ -9,6 +9,7 @@
 #include "../OverlordProject/Materials/ColorMaterial.h"
 #include "Content/ContentManager.h"
 
+#include "../Week2/Character.h"
 Level::Level()
 {
 }
@@ -29,6 +30,11 @@ void Level::Initialize(const GameContext & gameContext)
 
 	//InitLevel(gameContext);
 	InitItems(gameContext);
+}
+
+void Level::Update(float elapsedSec, Character * chara)
+{
+	
 }
 
 void Level::InitLevel(const GameContext & gameContext)
@@ -54,20 +60,20 @@ void Level::InitLevel(const GameContext & gameContext)
 
 void Level::InitItems(const GameContext & gameContext)
 {
+	m_Diamond = new GameObject();
+
 	auto physX = PhysxManager::GetInstance()->GetPhysics();
 	auto bouncyMaterial = physX->createMaterial(0.5, 0.5, 1.0f);
 
-	GameObject *diamond = new GameObject();
-
 	auto diamondModel = new ModelComponent(L"Resources/Meshes/diamond.ovm");
 
-	diamond->AddComponent(diamondModel);
+	m_Diamond->AddComponent(diamondModel);
 
-	diamond->AddComponent(new RigidBodyComponent(true));
+	m_Diamond->AddComponent(new RigidBodyComponent(true));
 
 	diamondModel->SetMaterial(0);
 
-	diamond->SetOnTriggerCallBack(test);
+	m_Diamond->SetOnTriggerCallBack(test);
 
 	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(1.0f, 1.0f, 1.0f));
 
@@ -75,14 +81,18 @@ void Level::InitItems(const GameContext & gameContext)
 
 	collider->EnableTrigger(true);
 
-	diamond->AddComponent(collider);
+	m_Diamond->AddComponent(collider);
 
-	AddChild(diamond);
+	m_Diamond->GetTransform()->Translate(10.0f, 0.0f, 10.0f);
+
+	AddChild(m_Diamond);
 }
 
 void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
 {
+	if (action == TriggerAction::ENTER) 
+	{
 
-	Logger::LogInfo(L"EYO YOU HIT A DIAMOND NEATO WOW");
+	}
 
 }
