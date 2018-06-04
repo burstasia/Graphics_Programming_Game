@@ -39,7 +39,7 @@ private:
 
 	Character *m_pCharacter;
 
-	void AddForce(float elapsedSec);
-
+	bool AddForce(float elapsedSec);
+	float GetDistance(const XMFLOAT3& v1, const XMFLOAT3& v2);
 };
 

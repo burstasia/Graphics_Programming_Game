@@ -67,11 +67,11 @@ void Level::InitItems(const GameContext & gameContext)
 
 	for (size_t i = 0; i < 10; i++)
 	{
-		float randX = rand() % 10;
-		float randY = rand() % 5;
-		float randZ = rand() % 10;
+		float randX = rand() % 100 + (-50);
+		float randY = rand() % 5 + 2;
+		float randZ = rand() % 100 + (-50);
 
-		auto pickUp = new Pickup(XMFLOAT3(randX + 100, randY, randZ + 100));
+		auto pickUp = new Pickup(XMFLOAT3(randX, randY, randZ));
 
 		m_VectorPickups.push_back(pickUp);
 		m_VectorPickups.at(i)->SetOnTriggerCallBack(test);
@@ -91,12 +91,7 @@ void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAc
 
 	if (chara && trigger)
 	{
-		auto xPos = chara->GetTransform()->GetPosition().x;
-		auto zPos = chara->GetTransform()->GetPosition().z;
-
-		
 		trigger->SetState(State::flyingTowardsPlayer);
-		trigger->SetGoal(xPos, zPos);
 		trigger->SetCharacterRef(chara);
 	}
 	

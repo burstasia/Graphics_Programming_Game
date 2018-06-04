@@ -18,7 +18,7 @@ Pickup::Pickup(XMFLOAT3 pos):
 	m_AddForce(false),
 	m_State(State::floating),
 	m_CurrFlyingTime(0.0f),
-	m_TotalFlyingTime(2.0f),
+	m_TotalFlyingTime(0.5f),
 	m_HasBeenTriggered(false),
 	m_Speed(5.0f)
 {
@@ -53,28 +53,31 @@ void Pickup::Initialize(const GameContext & gameContext)
 
 	AddComponent(collider);
 
-	GetTransform()->Translate(20.0f, 5.0f, 0.0f);
 
 }
 
 void Pickup::Update(const GameContext & gameContext)
 {
+	
 	if(m_State == State::floating) GetTransform()->Translate(m_Pos);
 
+	//pickup flies towards you for a certain amount of time then after that time it
+	//disappears
 	else if (m_State == State::flyingTowardsPlayer)
 	{
 		
 		m_CurrFlyingTime += gameContext.pGameTime->GetElapsed();
-		
-		if (m_CurrFlyingTime < m_TotalFlyingTime)
+		AddForce(gameContext.pGameTime->GetElapsed());
+
+		if (m_CurrFlyingTime > m_TotalFlyingTime)
 		{
-			AddForce(gameContext.pGameTime->GetElapsed());
+			if (AddForce(gameContext.pGameTime->GetElapsed()))
+			{
+				SetIsActive(false);
+				m_CurrFlyingTime = 0.0f;
+			}
 		}
-		else
-		{
-			SetIsActive(false);
-			m_CurrFlyingTime = 0.0f;
-		}
+
 	}
 }
 
@@ -99,7 +102,7 @@ void Pickup::SetCharacterRef(Character * character)
 }
 
 
-void Pickup::AddForce(float elapsedSec)
+bool Pickup::AddForce(float elapsedSec)
 {
 	//goal - pos
 	//clamp
@@ -133,5 +136,22 @@ void Pickup::AddForce(float elapsedSec)
 
 	GetTransform()->Translate(pos.x + vec.x, pos.y + vec.y , pos.z + vec.z);
 
+	if (GetDistance(vec, pos) <= 30.0f)
+	{
+		return true;
+	}
+	else return false;
 	//GetComponent<RigidBodyComponent>()->AddForce(PxVec3(m_GoalX, 40.5f, m_GoalZ), PxForceMode::eVELOCITY_CHANGE, true);
+}
+
+float Pickup::GetDistance(const XMFLOAT3& v1, const XMFLOAT3& v2)
+{
+	XMVECTOR vector1 = XMLoadFloat3(&v1);
+	XMVECTOR vector2 = XMLoadFloat3(&v2);
+	XMVECTOR vectorSub = XMVectorSubtract(vector1, vector2);
+	XMVECTOR length = XMVector3Length(vectorSub);
+
+	float distance = 0.0f;
+	XMStoreFloat(&distance, length);
+	return distance;
 }
