@@ -44,8 +44,6 @@ void Platformer::Initialize(const GameContext & gameContext)
 void Platformer::Update(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
-
-	m_Level->Update(gameContext.pGameTime->GetElapsed(), m_Character);
 }
 
 void Platformer::Draw(const GameContext & gameContext)

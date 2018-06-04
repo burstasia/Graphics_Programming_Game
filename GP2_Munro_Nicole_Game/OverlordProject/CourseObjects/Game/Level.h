@@ -10,7 +10,7 @@ public:
 	virtual ~Level(void);
 
 	void Initialize(const GameContext & gameContext);
-	void Update(float elapsedSec, Character * chara);
+	void Update(const GameContext & gameContext);
 
 
 private:
@@ -20,7 +20,8 @@ private:
 
 	static void test(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 
-	GameObject *m_Diamond;
+	//GameObject *m_Diamond;
 
+	bool m_AddForce = false;
 };
 

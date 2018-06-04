@@ -10,10 +10,11 @@
 #include "Content/ContentManager.h"
 
 #include "../Week2/Character.h"
+#include "Pickup.h"
+
 Level::Level()
 {
 }
-
 
 Level::~Level()
 {
@@ -28,17 +29,19 @@ void Level::Initialize(const GameContext & gameContext)
 	gameContext.pMaterialManager->AddMaterial(pColorMaterial, UINT(0));
 	UNREFERENCED_PARAMETER(gameContext);
 
-	//InitLevel(gameContext);
+	InitLevel(gameContext);
 	InitItems(gameContext);
 }
 
-void Level::Update(float elapsedSec, Character * chara)
+void Level::Update(const GameContext & gameContext)
 {
-	
+
 }
 
 void Level::InitLevel(const GameContext & gameContext)
 {
+	UNREFERENCED_PARAMETER(gameContext);
+
 	auto physX = PhysxManager::GetInstance()->GetPhysics();
 	auto bouncyMaterial = physX->createMaterial(0.5, 0.5, 1.0f);
 
@@ -60,39 +63,23 @@ void Level::InitLevel(const GameContext & gameContext)
 
 void Level::InitItems(const GameContext & gameContext)
 {
-	m_Diamond = new GameObject();
+	UNREFERENCED_PARAMETER(gameContext);
 
-	auto physX = PhysxManager::GetInstance()->GetPhysics();
-	auto bouncyMaterial = physX->createMaterial(0.5, 0.5, 1.0f);
+	auto pickup = new Pickup();
 
-	auto diamondModel = new ModelComponent(L"Resources/Meshes/diamond.ovm");
+	pickup->SetOnTriggerCallBack(test);
 
-	m_Diamond->AddComponent(diamondModel);
+	AddChild(pickup);
+	
 
-	m_Diamond->AddComponent(new RigidBodyComponent(true));
-
-	diamondModel->SetMaterial(0);
-
-	m_Diamond->SetOnTriggerCallBack(test);
-
-	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(1.0f, 1.0f, 1.0f));
-
-	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial);
-
-	collider->EnableTrigger(true);
-
-	m_Diamond->AddComponent(collider);
-
-	m_Diamond->GetTransform()->Translate(10.0f, 0.0f, 10.0f);
-
-	AddChild(m_Diamond);
 }
 
 void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
 {
-	if (action == TriggerAction::ENTER) 
-	{
+	UNREFERENCED_PARAMETER(triggerobject);
+	UNREFERENCED_PARAMETER(otherobject);
+	UNREFERENCED_PARAMETER(action);
 
-	}
-
+	auto trigger = static_cast<Pickup*>(triggerobject);
+	trigger->SetAddForce(true);
 }

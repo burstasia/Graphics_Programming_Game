@@ -119,6 +119,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClCompile Include="CourseObjects\Week6\SoftwareSkinningScene_2.cpp" />
     <ClCompile Include="Materials\Shadow\SkinnedDiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="CourseObjects\Game\Platformer.cpp" />
+    <ClCompile Include="CourseObjects\Game\Pickup.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -166,6 +167,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClInclude Include="CourseObjects\Week6\SoftwareSkinningScene_2.h" />
     <ClInclude Include="Materials\Shadow\SkinnedDiffuseMaterial_Shadow.h" />
     <ClInclude Include="CourseObjects\Game\Platformer.h" />
+    <ClInclude Include="CourseObjects\Game\Pickup.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="CourseObjects\Week3\UberMaterialTestScene.h" />

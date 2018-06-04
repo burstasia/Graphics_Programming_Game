@@ -22,5 +22,5 @@ void FixedCamera::Initialize(const GameContext& gameContext)
 	m_pCamera = new CameraComponent();
 	AddComponent(m_pCamera);
 
-	GetTransform()->Translate(0,0,-10);
+	GetTransform()->Translate(0,0,-20);
 }

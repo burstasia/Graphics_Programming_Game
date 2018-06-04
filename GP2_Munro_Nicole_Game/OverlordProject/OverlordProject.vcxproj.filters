@@ -29,6 +29,7 @@
     <ClCompile Include="CourseObjects\Week1\TestScene.cpp" />
     <ClCompile Include="CourseObjects\Game\Platformer.cpp" />
     <ClCompile Include="CourseObjects\Game\Level.cpp" />
+    <ClCompile Include="CourseObjects\Game\Pickup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -58,5 +59,6 @@
     <ClInclude Include="CourseObjects\Week1\TestScene.h" />
     <ClInclude Include="CourseObjects\Game\Platformer.h" />
     <ClInclude Include="CourseObjects\Game\Level.h" />
+    <ClInclude Include="CourseObjects\Game\Pickup.h" />
   </ItemGroup>
 </Project>
