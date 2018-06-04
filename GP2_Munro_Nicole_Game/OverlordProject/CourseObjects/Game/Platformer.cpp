@@ -37,7 +37,7 @@ void Platformer::Initialize(const GameContext & gameContext)
 	//auto chara = new Character();
 	m_Character = new Character();
 	AddChild(m_Character);
-
+	m_Character->GetTransform()->Translate(-50.0f, 50.0f, -50.0f);
 
 }
 

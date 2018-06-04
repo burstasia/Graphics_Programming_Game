@@ -1,5 +1,6 @@
 #pragma once
-#include "../OverlordEngine/Scenegraph/GameObject.h"
+#include "Scenegraph/GameObject.h"
+#include "Pickup.h"
 
 class Character;
 
@@ -23,5 +24,7 @@ private:
 	//GameObject *m_Diamond;
 
 	bool m_AddForce = false;
+
+	std::vector<Pickup*> m_VectorPickups;
 };
 

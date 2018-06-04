@@ -70,38 +70,50 @@ void GameObject::RootInitialize(const GameContext& gameContext)
 
 void GameObject::RootUpdate(const GameContext& gameContext)
 {
-	//User-Object Update
-	Update(gameContext);
-	
-	//Component Update
-	for(BaseComponent* pComp: m_pComponents)
+	//If inactive don't update
+
+	if (m_IsActive)
 	{
-		pComp->Update(gameContext);
+		//User-Object Update
+		Update(gameContext);
+
+		//Component Update
+		for (BaseComponent* pComp : m_pComponents)
+		{
+			pComp->Update(gameContext);
+		}
+
+		//Root-Object Update
+		for (GameObject* pChild : m_pChildren)
+		{
+			pChild->RootUpdate(gameContext);
+		}
 	}
 
-	//Root-Object Update
-	for(GameObject* pChild: m_pChildren)
-	{
-		pChild->RootUpdate(gameContext);
-	}
 }
 
 void GameObject::RootDraw(const GameContext& gameContext)
 {
-	//User-Object Draw
-	Draw(gameContext);
+	//If inactive don't draw
 
-	//Component Draw
-	for(BaseComponent* pComp: m_pComponents)
+	if (m_IsActive)
 	{
-		pComp->Draw(gameContext);
-	}
+		//User-Object Draw
+		Draw(gameContext);
 
-	//Root-Object Draw
-	for(GameObject* pChild: m_pChildren)
-	{
-		pChild->RootDraw(gameContext);
+		//Component Draw
+		for (BaseComponent* pComp : m_pComponents)
+		{
+			pComp->Draw(gameContext);
+		}
+
+		//Root-Object Draw
+		for (GameObject* pChild : m_pChildren)
+		{
+			pChild->RootDraw(gameContext);
+		}
 	}
+	
 }
 
 void GameObject::RootPostDraw(const GameContext& gameContext)

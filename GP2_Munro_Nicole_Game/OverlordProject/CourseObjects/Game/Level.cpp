@@ -65,13 +65,18 @@ void Level::InitItems(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
 
-	auto pickup = new Pickup();
+	for (size_t i = 0; i < 10; i++)
+	{
+		float randX = rand() % 10;
+		float randY = rand() % 5;
+		float randZ = rand() % 10;
 
-	pickup->SetOnTriggerCallBack(test);
+		auto pickUp = new Pickup(XMFLOAT3(randX + 100, randY, randZ + 100));
 
-	AddChild(pickup);
-	
-
+		m_VectorPickups.push_back(pickUp);
+		m_VectorPickups.at(i)->SetOnTriggerCallBack(test);
+		AddChild(m_VectorPickups.at(i));
+	}
 }
 
 void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
@@ -80,6 +85,19 @@ void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAc
 	UNREFERENCED_PARAMETER(otherobject);
 	UNREFERENCED_PARAMETER(action);
 
+	auto chara = dynamic_cast<Character*>(otherobject);
+	
 	auto trigger = static_cast<Pickup*>(triggerobject);
-	trigger->SetAddForce(true);
+
+	if (chara && trigger)
+	{
+		auto xPos = chara->GetTransform()->GetPosition().x;
+		auto zPos = chara->GetTransform()->GetPosition().z;
+
+		
+		trigger->SetState(State::flyingTowardsPlayer);
+		trigger->SetGoal(xPos, zPos);
+		trigger->SetCharacterRef(chara);
+	}
+	
 }

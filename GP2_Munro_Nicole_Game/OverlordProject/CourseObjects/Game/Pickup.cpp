@@ -3,16 +3,24 @@
 
 #include "Components/Components.h"
 #include "Physx/PhysxManager.h"
-#include "../OverlordEngine/Scenegraph/GameObject.h"
+#include "Scenegraph/GameObject.h"
 #include "Physx\PhysxProxy.h"
 
 #include "../OverlordProject/Materials/ColorMaterial.h"
 #include "Content/ContentManager.h"
+#include "../Week2/Character.h"
+
+#include "Scenegraph/GameScene.h"
 
 
-
-Pickup::Pickup():
-	m_AddForce(false)
+Pickup::Pickup(XMFLOAT3 pos):
+	m_Pos(pos),
+	m_AddForce(false),
+	m_State(State::floating),
+	m_CurrFlyingTime(0.0f),
+	m_TotalFlyingTime(2.0f),
+	m_HasBeenTriggered(false),
+	m_Speed(5.0f)
 {
 }
 
@@ -37,7 +45,7 @@ void Pickup::Initialize(const GameContext & gameContext)
 
 	diamondModel->SetMaterial(0);
 
-	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(5.0f, 1.0f, 5.0f));
 
 	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial);
 
@@ -51,26 +59,79 @@ void Pickup::Initialize(const GameContext & gameContext)
 
 void Pickup::Update(const GameContext & gameContext)
 {
-	if(!m_AddForce) GetTransform()->Translate(10.0f, 5.0f, 0.0f);
+	if(m_State == State::floating) GetTransform()->Translate(m_Pos);
 
-	if (m_AddForce)
+	else if (m_State == State::flyingTowardsPlayer)
 	{
-		GetComponent<RigidBodyComponent>()->AddForce(PxVec3(1000.0f, 0.0f, 0.0f), PxForceMode::eIMPULSE, true);
+		
+		m_CurrFlyingTime += gameContext.pGameTime->GetElapsed();
+		
+		if (m_CurrFlyingTime < m_TotalFlyingTime)
+		{
+			AddForce(gameContext.pGameTime->GetElapsed());
+		}
+		else
+		{
+			SetIsActive(false);
+			m_CurrFlyingTime = 0.0f;
+		}
 	}
 }
 
-void Pickup::SetAddForce(bool addForce)
+void Pickup::SetState(State state)
 {
-	m_AddForce = addForce;
+	if (!m_HasBeenTriggered)
+	{
+		m_State = state;
+		m_HasBeenTriggered = true;
+	}
 }
 
-void Pickup::ColliderCallback(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
+void Pickup::SetGoal(float x, float z)
 {
-	UNREFERENCED_PARAMETER(triggerobject);
-	UNREFERENCED_PARAMETER(otherobject);
-	UNREFERENCED_PARAMETER(action);
+	m_GoalX = (x - GetTransform()->GetPosition().x) * 2.0f;
+	m_GoalZ = (z - GetTransform()->GetPosition().z) * 2.0f;
+}
 
-	/*auto trigger = static_cast<Pickup*>(triggerobject);
+void Pickup::SetCharacterRef(Character * character)
+{
+	m_pCharacter = character;
+}
 
-	trigger->m_AddForce = true;*/
+
+void Pickup::AddForce(float elapsedSec)
+{
+	//goal - pos
+	//clamp
+	//max - min / max
+	//* speed
+	//elapsedSec
+
+	//add world offset
+
+	auto goal = m_pCharacter->GetTransform()->GetPosition();
+	auto currPos = GetTransform()->GetPosition();
+
+	XMVECTOR tempGoal = XMLoadFloat3(&goal);
+	XMVECTOR tempCurrPos = XMLoadFloat3(&currPos);
+
+	auto tempVec = XMVectorSubtract(tempGoal, tempCurrPos);
+
+	XMFLOAT3 vec{};
+
+	XMStoreFloat3(&vec, tempVec);
+
+	vec.x *= m_Speed;
+	vec.y *= m_Speed;
+	vec.z *= m_Speed;
+
+	vec.x *= elapsedSec;
+	vec.y *= elapsedSec;
+	vec.z *= elapsedSec;
+
+	XMFLOAT3 pos = GetTransform()->GetPosition();
+
+	GetTransform()->Translate(pos.x + vec.x, pos.y + vec.y , pos.z + vec.z);
+
+	//GetComponent<RigidBodyComponent>()->AddForce(PxVec3(m_GoalX, 40.5f, m_GoalZ), PxForceMode::eVELOCITY_CHANGE, true);
 }
