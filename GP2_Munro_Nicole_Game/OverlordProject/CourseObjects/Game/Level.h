@@ -3,6 +3,7 @@
 #include "Pickup.h"
 
 class Character;
+class Enemy;
 
 class Level final : public GameObject
 {
@@ -26,5 +27,7 @@ private:
 	bool m_AddForce = false;
 
 	std::vector<Pickup*> m_VectorPickups;
+
+	Enemy* m_pEnemy;
 };
 

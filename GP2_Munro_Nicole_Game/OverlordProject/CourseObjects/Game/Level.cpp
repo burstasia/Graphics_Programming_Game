@@ -3,14 +3,15 @@
 
 #include "Components/Components.h"
 #include "Physx/PhysxManager.h"
-#include "../OverlordEngine/Scenegraph/GameObject.h"
+#include "Scenegraph/GameObject.h"
 #include "Physx\PhysxProxy.h"
 
-#include "../OverlordProject/Materials/ColorMaterial.h"
+#include "Materials/ColorMaterial.h"
 #include "Content/ContentManager.h"
 
 #include "../Week2/Character.h"
 #include "Pickup.h"
+#include "Enemy.h"
 
 Level::Level()
 {
@@ -77,6 +78,9 @@ void Level::InitItems(const GameContext & gameContext)
 		m_VectorPickups.at(i)->SetOnTriggerCallBack(test);
 		AddChild(m_VectorPickups.at(i));
 	}
+
+	m_pEnemy = new Enemy({50.0f, 0.0f, 50.0f}, {-50.0f,0.0f,50.0f}, {-50.0f,0.0f,-50.0f}, { 50.0f,0.0f,-50.0f });
+	AddChild(m_pEnemy);
 }
 
 void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
