@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "MainCharacter.h"
 #include "Components/Components.h"
-#include "Materials/DiffuseMaterial.h"
+#include "Materials/SkinnedDiffuseMaterial.h"
+#include "Graphics\ModelAnimator.h"
 #include "../Week2/Character.h"
 
 MainCharacter::MainCharacter(Character * chara):
-	m_pCharacter(chara)
+	m_pCharacter(chara),
+	m_State(State::idle)
 {
 }
 
@@ -16,9 +18,9 @@ MainCharacter::~MainCharacter()
 
 void MainCharacter::Initialize(const GameContext & gameContext)
 {
-	auto model = new ModelComponent(L"Resources/Meshes/Dragon.ovm");
+	auto model = new ModelComponent(L"Resources/Meshes/idle.ovm");
 
-	auto pDiffuseMaterial = new DiffuseMaterial();
+	auto pDiffuseMaterial = new SkinnedDiffuseMaterial();
 	pDiffuseMaterial->SetDiffuseTexture(L"Resources/Textures/Dragon.png");
 	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterial, UINT(3));
 
@@ -26,8 +28,10 @@ void MainCharacter::Initialize(const GameContext & gameContext)
 
 	AddComponent(model);
 
-	GetTransform()->Scale(0.1f, 0.1f, 0.1f);
-	GetTransform()->Rotate(90.0f, -180.0f, 0.0f);
+	//model->GetAnimator()->SetAnimation(0);
+
+	GetTransform()->Scale(0.05f, 0.05f, 0.05f);
+	//GetTransform()->Rotate(0.0f, 180.0f, 0.0f);
 }
 
 void MainCharacter::Update(const GameContext & gameContext)
@@ -35,9 +39,12 @@ void MainCharacter::Update(const GameContext & gameContext)
 	//Get rotations of character
 	//Get positions of character
 	//Update self with these
+	GetComponent<ModelComponent>()->GetAnimator()->Play();
 
 	if (m_pCharacter->GetState() == Character::State::flying)
 	{
+		m_State = State::flying;
+
 		auto velocity = m_pCharacter->GetVelocity();
 
 		GetTransform()->Translate(m_pCharacter->GetTransform()->GetPosition().x, m_pCharacter->GetTransform()->GetPosition().y - 5.0f, m_pCharacter->GetTransform()->GetPosition().z);
@@ -51,8 +58,13 @@ void MainCharacter::Update(const GameContext & gameContext)
 
 		float angle = (atan2(velocity.x, velocity.z) * 180 / XM_PI) + 180.f;
 
-		GetTransform()->Rotate(90.0f, angle, 0.0f);
+		GetTransform()->Rotate(0.0f, angle - 180, 0.0f);
 	}
-	
+	else m_State = State::idle;
 
+}
+
+void MainCharacter::PostInit()
+{
+	GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
 }
