@@ -38,6 +38,7 @@ private:
 	float m_MaxZ;
 	float m_MinZ;
 
+
 	Character* m_pCharacter;
 	void EnemyMovement(float elapsedSec);
 	void FollowPlayerMovement(float elapsedSec);

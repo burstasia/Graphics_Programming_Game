@@ -95,6 +95,10 @@ void Enemy::Update(const GameContext & gameContext)
 {
 	if(!m_IsFollowing)EnemyMovement(gameContext.pGameTime->GetElapsed());
 	else FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
+
+	
+
+	//float angle = (atan2(velocity.x, velocity.z) * 180 / XM_PI) + 180.f;
 }
 
 void Enemy::EnemyMovement(float elapsedSec)
@@ -105,6 +109,27 @@ void Enemy::EnemyMovement(float elapsedSec)
 		m_GoalZ = rand() % (int)(m_MaxZ + (-1.0f * m_MinZ)) + (m_MinZ);
 		m_Goal = XMFLOAT3(m_GoalX, GetTransform()->GetPosition().y, m_GoalZ);
 		m_GoalSet = true;
+
+		//set angle
+		XMFLOAT2 forward{ GetTransform()->GetForward().x, GetTransform()->GetForward().z };
+		XMFLOAT2 goal{ m_Goal.x, m_Goal.z };
+
+		XMVECTOR forwardVec = XMLoadFloat2(&forward);
+		forwardVec = XMVector3Normalize(forwardVec);
+
+		XMVECTOR goalVec = XMLoadFloat2(&goal);
+		goalVec = XMVector3Normalize(goalVec);
+
+		XMVECTOR angleVec = XMVector2Dot(forwardVec, goalVec);
+
+		float angle{};
+
+		XMStoreFloat(&angle, angleVec);
+
+		angle = XMConvertToDegrees(angle);
+
+		GetTransform()->Rotate(0.0f, 90.0f + angle, 0.0f);
+
 	}
 	if (GetDistance(GetTransform()->GetPosition(), m_Goal) <= 5.0f)
 	{

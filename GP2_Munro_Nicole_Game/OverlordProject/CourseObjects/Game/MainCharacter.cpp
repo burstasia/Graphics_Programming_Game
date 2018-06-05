@@ -45,7 +45,7 @@ void MainCharacter::Update(const GameContext & gameContext)
 
 		XMVECTOR tempVel = XMLoadFloat3(&velocity);
 
-		XMVector3Normalize(tempVel);
+		tempVel = XMVector3Normalize(tempVel);
 
 		XMStoreFloat3(&velocity, tempVel);
 
