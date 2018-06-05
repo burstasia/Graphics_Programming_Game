@@ -109,6 +109,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClCompile Include="CourseObjects\Week9\ShadowMappingScene.cpp" />
     <ClCompile Include="CourseObjects\Game\Level.cpp" />
     <ClCompile Include="CourseObjects\Game\Enemy.cpp" />
+    <ClCompile Include="CourseObjects\Game\MainCharacter.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial.cpp" />
     <ClCompile Include="Materials\ColorMaterial.cpp" />
@@ -158,6 +159,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClInclude Include="CourseObjects\Week9\ShadowMappingScene.h" />
     <ClInclude Include="CourseObjects\Game\Level.h" />
     <ClInclude Include="CourseObjects\Game\Enemy.h" />
+    <ClInclude Include="CourseObjects\Game\MainCharacter.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\DiffuseMaterial.h" />
     <ClInclude Include="Materials\ColorMaterial.h" />

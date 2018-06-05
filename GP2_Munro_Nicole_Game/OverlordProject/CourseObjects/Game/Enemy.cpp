@@ -21,7 +21,7 @@ Enemy::Enemy(XMFLOAT3 p1, XMFLOAT3 p2, XMFLOAT3 p3, XMFLOAT3 p4):
 	m_Goal(0.0f,0.0f,0.0f),
 	m_IsFollowing(false),
 	m_GoalSet(false),
-	m_TotalFollowTime(5.0f),
+	m_TotalFollowTime(2.0f),
 	m_CurrFollowTime(0.0f),
 	m_P1(p1),
 	m_P2(p2),
@@ -46,9 +46,9 @@ void Enemy::Initialize(const GameContext & gameContext)
 
 	rigidBody->SetKinematic(true);
 
-	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(2.0f,4.0f,4.0f));
+	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(6.0f,4.0f,6.0f));
 
-	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f,2.0f,-2.0f)));
+	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f,2.0f,-4.0f)));
 
 	collider->EnableTrigger(true);
 

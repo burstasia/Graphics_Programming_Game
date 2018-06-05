@@ -13,6 +13,10 @@
 
 #include "../Week2/Character.h"
 
+#include "Materials/DiffuseMaterial.h"
+
+#include "MainCharacter.h"
+
 Platformer::Platformer():
 	GameScene(L"SpyroScene")
 {
@@ -25,7 +29,7 @@ Platformer::~Platformer()
 
 void Platformer::Initialize(const GameContext & gameContext)
 {
-	GetPhysxProxy()->EnablePhysxDebugRendering(true);
+	//GetPhysxProxy()->EnablePhysxDebugRendering(true);
 
 
 	//GROUND
@@ -36,8 +40,15 @@ void Platformer::Initialize(const GameContext & gameContext)
 	//CHARACTER
 	//auto chara = new Character();
 	m_Character = new Character();
+	
 	AddChild(m_Character);
-	m_Character->GetTransform()->Translate(-50.0f, 50.0f, -50.0f);
+
+	m_pMainCharacter = new MainCharacter(m_Character);
+
+	AddChild(m_pMainCharacter);
+
+
+	//m_Character->GetTransform()->Translate(-50.0f, 50.0f, -50.0f);
 
 }
 

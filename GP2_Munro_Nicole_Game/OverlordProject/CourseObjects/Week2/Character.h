@@ -16,13 +16,21 @@ public:
 		JUMP
 	};
 
+	enum State
+	{
+		flying,
+		idle
+	};
+
 	Character(float radius = 2, float height = 5, float moveSpeed = 100);
 	virtual ~Character();
 	virtual void Initialize(const GameContext& gameContext);
 	virtual void PostInitialize(const GameContext& gameContext);
 	virtual void Update(const GameContext& gameContext);
 
+	XMFLOAT3 GetVelocity() { return m_Velocity; }
 
+	State GetState() { return m_State; }
 protected:
 
 	CameraComponent* m_pCamera;
@@ -44,6 +52,8 @@ protected:
 		m_JumpVelocity;
 
 	XMFLOAT3 m_Velocity;
+
+	State m_State;
 
 private:
 	// -------------------------

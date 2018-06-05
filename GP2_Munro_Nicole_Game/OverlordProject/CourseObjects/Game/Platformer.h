@@ -3,6 +3,7 @@
 
 class Character;
 class Level;
+class MainCharacter;
 
 class Platformer : public GameScene
 {
@@ -18,6 +19,8 @@ protected:
 private:
 	Level * m_Level;
 	Character * m_Character;
+	MainCharacter * m_pMainCharacter;
+
 private:
 	// -------------------------
 	// Disabling default copy constructor and default 

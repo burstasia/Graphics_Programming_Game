@@ -25,7 +25,8 @@ Character::Character(float radius, float height, float moveSpeed) :
 	m_JumpAcceleration(m_Gravity / m_JumpAccelerationTime),
 	m_RunVelocity(0),
 	m_JumpVelocity(0),
-	m_Velocity(0, 0, 0)
+	m_Velocity(0, 0, 0),
+	m_State(State::idle)
 {
 }
 
@@ -108,11 +109,15 @@ void Character::Update(const GameContext& gameContext)
 
 			m_Velocity.x = ((forward.x * move.z) + (right.x * move.x)) * m_RunVelocity;
 			m_Velocity.z = ((forward.z * move.z) + (right.z * move.x)) * m_RunVelocity;
+
+			m_State = State::flying;
 		}
 		else
 		{
 			m_Velocity.x = 0.0f;
 			m_Velocity.z = 0.0f;
+
+			m_State = State::idle;
 		}
 
 		XMFLOAT3 currPosFloat3;

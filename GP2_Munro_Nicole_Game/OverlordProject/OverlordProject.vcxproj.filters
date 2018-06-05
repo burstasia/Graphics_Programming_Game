@@ -31,6 +31,7 @@
     <ClCompile Include="CourseObjects\Game\Level.cpp" />
     <ClCompile Include="CourseObjects\Game\Pickup.cpp" />
     <ClCompile Include="CourseObjects\Game\Enemy.cpp" />
+    <ClCompile Include="CourseObjects\Game\MainCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -62,5 +63,6 @@
     <ClInclude Include="CourseObjects\Game\Level.h" />
     <ClInclude Include="CourseObjects\Game\Pickup.h" />
     <ClInclude Include="CourseObjects\Game\Enemy.h" />
+    <ClInclude Include="CourseObjects\Game\MainCharacter.h" />
   </ItemGroup>
 </Project>
