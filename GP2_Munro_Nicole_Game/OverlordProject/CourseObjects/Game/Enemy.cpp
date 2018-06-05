@@ -12,6 +12,8 @@
 
 #include "Scenegraph/GameScene.h"
 
+#include "Materials/DiffuseMaterial.h"
+
 Enemy::Enemy(XMFLOAT3 p1, XMFLOAT3 p2, XMFLOAT3 p3, XMFLOAT3 p4):
 	m_Speed(0.5f),
 	m_GoalX(0.0f),
@@ -44,13 +46,26 @@ void Enemy::Initialize(const GameContext & gameContext)
 
 	rigidBody->SetKinematic(true);
 
-	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(5.0f, 1.0f, 5.0f));
+	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(2.0f,4.0f,4.0f));
 
-	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial);
+	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f,2.0f,-2.0f)));
 
 	collider->EnableTrigger(true);
 
 	AddComponent(collider);
+
+
+	auto enemyModel = new ModelComponent(L"Resources/Meshes/Knight.ovm");
+
+	AddComponent(enemyModel);
+
+	auto pDiffuseMaterial = new DiffuseMaterial();
+	pDiffuseMaterial->SetDiffuseTexture(L"Resources/Textures/Knight.jpg");
+	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterial, UINT(1));
+	
+	enemyModel->SetMaterial(1);
+
+	enemyModel->GetTransform()->Scale(0.03f, 0.03f, 0.03f);
 
 	//getting max and min values
 	std::vector<XMFLOAT3> tempVec{};
@@ -90,12 +105,6 @@ void Enemy::EnemyMovement(float elapsedSec)
 		m_GoalZ = rand() % (int)(m_MaxZ + (-1.0f * m_MinZ)) + (m_MinZ);
 		m_Goal = XMFLOAT3(m_GoalX, GetTransform()->GetPosition().y, m_GoalZ);
 		m_GoalSet = true;
-
-		//get the highest x value from all the points
-		//get lowest x value
-		//get heighest y
-		//get lowest y
-
 	}
 	if (GetDistance(GetTransform()->GetPosition(), m_Goal) <= 5.0f)
 	{
@@ -107,6 +116,8 @@ void Enemy::EnemyMovement(float elapsedSec)
 
 void Enemy::FollowPlayerMovement(float elapsedSec)
 {
+	m_Speed = 1.0f;
+
 	if (m_pCharacter)
 	{
 		m_Goal = m_pCharacter->GetTransform()->GetPosition();
@@ -119,10 +130,14 @@ void Enemy::FollowPlayerMovement(float elapsedSec)
 	{
 		m_IsFollowing = false;
 		m_CurrFollowTime = 0.0f;
+		m_Speed = 0.5f;
 	}
 	if (GetDistance(GetTransform()->GetPosition(), m_Goal) <= 5.0f)
 	{
 		//Attack I guess
+		m_IsFollowing = false;
+		m_CurrFollowTime = 0.0f;
+		m_Speed = 0.5f;
 	}
 	else Move(elapsedSec);
 

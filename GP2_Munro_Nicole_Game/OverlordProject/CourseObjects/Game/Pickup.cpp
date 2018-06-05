@@ -136,7 +136,7 @@ bool Pickup::AddForce(float elapsedSec)
 
 	GetTransform()->Translate(pos.x + vec.x, pos.y + vec.y , pos.z + vec.z);
 
-	if (GetDistance(vec, pos) <= 30.0f)
+	if (GetDistance(vec, pos) <= 60.0f)
 	{
 		return true;
 	}

@@ -20,7 +20,8 @@ private:
 	void InitLevel(const GameContext & gameContext);
 	void InitItems(const GameContext & gameContext);
 
-	static void test(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
+	static void ItemTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
+	static void EnemyTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 
 	//GameObject *m_Diamond;
 

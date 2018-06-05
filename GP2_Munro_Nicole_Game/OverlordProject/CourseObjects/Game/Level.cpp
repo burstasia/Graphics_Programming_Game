@@ -75,15 +75,17 @@ void Level::InitItems(const GameContext & gameContext)
 		auto pickUp = new Pickup(XMFLOAT3(randX, randY, randZ));
 
 		m_VectorPickups.push_back(pickUp);
-		m_VectorPickups.at(i)->SetOnTriggerCallBack(test);
+		m_VectorPickups.at(i)->SetOnTriggerCallBack(ItemTrigger);
 		AddChild(m_VectorPickups.at(i));
 	}
 
 	m_pEnemy = new Enemy({50.0f, 0.0f, 50.0f}, {-50.0f,0.0f,50.0f}, {-50.0f,0.0f,-50.0f}, { 50.0f,0.0f,-50.0f });
+	m_pEnemy->SetOnTriggerCallBack(EnemyTrigger);
 	AddChild(m_pEnemy);
+
 }
 
-void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
+void Level::ItemTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
 {
 	UNREFERENCED_PARAMETER(triggerobject);
 	UNREFERENCED_PARAMETER(otherobject);
@@ -99,4 +101,18 @@ void Level::test(GameObject * triggerobject, GameObject * otherobject, TriggerAc
 		trigger->SetCharacterRef(chara);
 	}
 	
+}
+
+void Level::EnemyTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
+{
+	auto chara = dynamic_cast<Character*>(otherobject);
+
+	auto enemy = static_cast<Enemy*>(triggerobject);
+
+	if (chara && enemy)
+	{
+		enemy->SetIsFollowing(true);
+		enemy->SetCharacterReference(chara);
+	}
+
 }
