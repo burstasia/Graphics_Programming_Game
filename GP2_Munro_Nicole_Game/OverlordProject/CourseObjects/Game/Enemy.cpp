@@ -50,7 +50,7 @@ void Enemy::Initialize(const GameContext & gameContext)
 
 	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(6.0f,4.0f,6.0f));
 
-	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f,2.0f,-4.0f)));
+	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f,5.0f,-4.0f)));
 
 	collider->EnableTrigger(true);
 
