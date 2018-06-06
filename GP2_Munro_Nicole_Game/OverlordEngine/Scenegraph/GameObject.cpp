@@ -72,24 +72,25 @@ void GameObject::RootUpdate(const GameContext& gameContext)
 {
 	//If inactive don't update
 
-	if (m_IsActive)
+
+	//User-Object Update
+	Update(gameContext);
+
+	//Component Update
+	for (BaseComponent* pComp : m_pComponents)
 	{
-		//User-Object Update
-		Update(gameContext);
-
-		//Component Update
-		for (BaseComponent* pComp : m_pComponents)
-		{
-			pComp->Update(gameContext);
-		}
-
-		//Root-Object Update
-		for (GameObject* pChild : m_pChildren)
-		{
-			pChild->RootUpdate(gameContext);
-		}
+		pComp->Update(gameContext);
 	}
 
+	//Root-Object Update
+	for (GameObject* pChild : m_pChildren)
+	{
+		pChild->RootUpdate(gameContext);
+	}
+
+	AddRuntime();
+	RemoveRuntime();
+	
 }
 
 void GameObject::RootDraw(const GameContext& gameContext)
@@ -134,6 +135,46 @@ void GameObject::RootPostDraw(const GameContext& gameContext)
 	}
 }
 
+void GameObject::AddRuntime()
+{
+	if (m_pChildrenRuntime.size() > 0)
+	{
+		for (auto* obj : m_pChildrenRuntime)
+		{
+			obj->m_pParentScene = m_pParentScene;
+			obj->RootInitialize(GetScene()->GetGameContext());
+			obj->m_pParentObject = this;
+			m_pChildren.push_back(obj);
+		}
+
+		m_pChildrenRuntime.clear();
+	}
+}
+
+void GameObject::RemoveRuntime()
+{
+	if (m_pChildrenRuntime.size() > 0)
+	{
+		for (auto vec : m_pChildrenRemoveRuntime)
+		{
+			auto it = find(m_pChildren.begin(), m_pChildren.end(), vec);
+
+#if _DEBUG 
+			if (it == m_pChildren.end())
+			{
+				Logger::LogWarning(L"GameScene::Remove child > Gameobject to remove is not attahced to the gamescene");
+				return;
+			}
+
+#endif
+			m_pChildren.erase(it);
+			
+			delete vec;
+			vec = nullptr;
+		}
+	}
+}
+
 void GameObject::AddChild(GameObject* obj)
 {
 #if _DEBUG
@@ -172,6 +213,11 @@ void GameObject::AddChild(GameObject* obj)
 	}
 }
 
+void GameObject::AddChildRuntime(GameObject * obj)
+{
+	m_pChildrenRuntime.push_back(obj);
+}
+
 void GameObject::RemoveChild(GameObject* obj)
 {
 	auto it = find(m_pChildren.begin(), m_pChildren.end(), obj);
@@ -186,6 +232,11 @@ void GameObject::RemoveChild(GameObject* obj)
 
 	m_pChildren.erase(it);
 	obj->m_pParentObject = nullptr;
+}
+
+void GameObject::RemoveChildRuntime(GameObject * obj)
+{
+	m_pChildrenRemoveRuntime.push_back(obj);
 }
 
 void GameObject::AddComponent(BaseComponent* pComp)

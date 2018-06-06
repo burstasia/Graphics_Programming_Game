@@ -15,7 +15,11 @@ public:
 	virtual ~GameScene(void);
 
 	void AddChild(GameObject* obj);
+	void AddChildRuntime(GameObject* obj);
+
 	void RemoveChild(GameObject* obj, bool deleteObject = true);
+	void RemoveChildRuntime(GameObject* obj, bool deleteObject = true);
+
 	const GameContext& GetGameContext() const { return m_GameContext; }
 
 	PhysxProxy * GetPhysxProxy() const { return m_pPhysxProxy; }
@@ -40,12 +44,18 @@ private:
 	void RootSceneDeactivated();
 	void RootWindowStateChanged(int state, bool active);
 
+	void AddRuntime();
+	void RemoveRuntime();
+
 	vector<GameObject*> m_pChildren;
 	GameContext m_GameContext;
 	bool m_IsInitialized;
 	wstring m_SceneName;
 	CameraComponent *m_pDefaultCamera, *m_pActiveCamera;
 	PhysxProxy* m_pPhysxProxy;
+
+	vector<GameObject*> m_pChildrenRuntime;
+	vector<std::pair<GameObject*,bool>> m_pChildrenRemoveRuntime;
 
 private:
 	// -------------------------

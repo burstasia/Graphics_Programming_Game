@@ -29,7 +29,7 @@ Platformer::~Platformer()
 
 void Platformer::Initialize(const GameContext & gameContext)
 {
-	//GetPhysxProxy()->EnablePhysxDebugRendering(true);
+	GetPhysxProxy()->EnablePhysxDebugRendering(true);
 
 
 	//GROUND

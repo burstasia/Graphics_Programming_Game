@@ -64,6 +64,11 @@ void GameScene::AddChild(GameObject* obj)
 	m_pChildren.push_back(obj);
 }
 
+void GameScene::AddChildRuntime(GameObject * obj)
+{
+	m_pChildrenRuntime.push_back(obj);
+}
+
 void GameScene::RemoveChild(GameObject* obj, bool deleteObject)
 {
 	auto it = find(m_pChildren.begin(), m_pChildren.end(), obj);
@@ -84,6 +89,11 @@ void GameScene::RemoveChild(GameObject* obj, bool deleteObject)
 	}
 	else
 		obj->m_pParentScene = nullptr;
+}
+
+void GameScene::RemoveChildRuntime(GameObject * obj, bool deleteObject)
+{
+	m_pChildrenRemoveRuntime.push_back(std::pair<GameObject*, bool>(obj, deleteObject));
 }
 
 void GameScene::RootInitialize(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
@@ -147,6 +157,9 @@ void GameScene::RootUpdate()
 	}
 
 	m_pPhysxProxy->Update(m_GameContext);
+
+	AddRuntime();
+	RemoveRuntime();
 }
 
 void GameScene::RootDraw()
@@ -200,6 +213,47 @@ void GameScene::RootWindowStateChanged(int state, bool active)
 	{
 		if (active)m_GameContext.pGameTime->Start();
 		else m_GameContext.pGameTime->Stop();
+	}
+}
+
+void GameScene::AddRuntime()
+{
+	if (m_pChildrenRuntime.size() > 0)
+	{
+		for (auto* obj : m_pChildrenRuntime)
+		{
+			obj->m_pParentScene = this;
+			obj->RootInitialize(m_GameContext);
+			m_pChildren.push_back(obj);
+		}
+
+		m_pChildrenRuntime.clear();
+	}
+}
+
+void GameScene::RemoveRuntime()
+{
+	if (m_pChildrenRuntime.size() > 0)
+	{
+		for (auto vec : m_pChildrenRemoveRuntime)
+		{
+			auto it = find(m_pChildren.begin(), m_pChildren.end(), vec.first);
+
+#if _DEBUG 
+			if (it == m_pChildren.end())
+			{
+				Logger::LogWarning(L"GameScene::Remove child > Gameobject to remove is not attahced to the gamescene");
+				return;
+			}
+
+#endif
+			m_pChildren.erase(it);
+			if (vec.second)
+			{
+				delete vec.first;
+				vec.first = nullptr;
+			}
+		}
 	}
 }
 

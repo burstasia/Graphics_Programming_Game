@@ -11,11 +11,13 @@ public:
 	Platformer(void);
 	virtual ~Platformer(void);
 
+	Level* GetLevel() { return m_Level; }
 protected:
 	virtual void Initialize(const GameContext& gameContext);
 	virtual void Update(const GameContext& gameContext);
 	virtual void Draw(const GameContext& gameContext);
 
+	
 private:
 	Level * m_Level;
 	Character * m_Character;

@@ -14,6 +14,7 @@ public:
 	void Initialize(const GameContext & gameContext);
 	void Update(const GameContext & gameContext);
 
+	void SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
 
 private:
 

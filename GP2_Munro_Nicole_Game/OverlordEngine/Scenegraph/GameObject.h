@@ -22,7 +22,10 @@ public:
 	virtual ~GameObject(void);
 
 	void AddChild(GameObject* obj);
+	void AddChildRuntime(GameObject* obj);
+
 	void RemoveChild(GameObject* obj);
+	void RemoveChildRuntime(GameObject* obj);
 
 	void AddComponent(BaseComponent* pComp);
 	void RemoveComponent(BaseComponent* pComp);
@@ -135,6 +138,9 @@ private:
 	void RootDraw(const GameContext& gameContext);
 	void RootPostDraw(const GameContext& gameContext);
 
+	void AddRuntime();
+	void RemoveRuntime();
+
 	vector<GameObject*> m_pChildren;
 	vector<BaseComponent*> m_pComponents;
 
@@ -144,6 +150,9 @@ private:
 	TransformComponent* m_pTransform;
 	PhysicsCallback m_OnTriggerCallback;
 	wstring m_Tag;
+
+	vector<GameObject*> m_pChildrenRuntime;
+	vector<GameObject*> m_pChildrenRemoveRuntime;
 
 private:
 	// -------------------------

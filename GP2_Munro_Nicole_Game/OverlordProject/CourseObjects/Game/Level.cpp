@@ -12,6 +12,7 @@
 #include "../Week2/Character.h"
 #include "Pickup.h"
 #include "Enemy.h"
+#include "Fireball.h"
 
 Level::Level()
 {
@@ -37,6 +38,13 @@ void Level::Initialize(const GameContext & gameContext)
 void Level::Update(const GameContext & gameContext)
 {
 
+}
+
+void Level::SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec)
+{
+	auto fireball = new Fireball(startPos, forwardVec);
+
+	AddChildRuntime(fireball);
 }
 
 void Level::InitLevel(const GameContext & gameContext)

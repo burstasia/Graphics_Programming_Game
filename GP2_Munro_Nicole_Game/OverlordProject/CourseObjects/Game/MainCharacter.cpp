@@ -4,6 +4,8 @@
 #include "Materials/SkinnedDiffuseMaterial.h"
 #include "Graphics\ModelAnimator.h"
 #include "../Week2/Character.h"
+#include "Level.h"
+#include "Platformer.h"
 
 MainCharacter::MainCharacter(Character * chara):
 	m_pCharacter(chara),
@@ -32,6 +34,9 @@ void MainCharacter::Initialize(const GameContext & gameContext)
 
 	GetTransform()->Scale(0.05f, 0.05f, 0.05f);
 	//GetTransform()->Rotate(0.0f, 180.0f, 0.0f);
+
+	//INPUT
+	gameContext.pInput->AddInputAction(InputAction(50, Down, 'E'));
 }
 
 void MainCharacter::Update(const GameContext & gameContext)
@@ -62,6 +67,22 @@ void MainCharacter::Update(const GameContext & gameContext)
 	}
 	else m_State = State::idle;
 
+	if (gameContext.pInput->IsActionTriggered(50))
+	{
+		//spawn fireball
+
+		auto scene = static_cast<Platformer*>(GetScene());
+
+		if (scene)
+		{
+			auto level = static_cast<Level*>(scene->GetLevel());
+
+			if (level)
+			{
+				level->SpawnFireball(GetTransform()->GetPosition(), GetTransform()->GetForward());
+			}
+		}
+	}
 }
 
 void MainCharacter::PostInit()
