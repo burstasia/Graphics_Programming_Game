@@ -69,15 +69,48 @@ void Level::InitLevel(const GameContext & gameContext)
 	pGroundModel->SetMaterial(0);
 
 	//Cylinder
-	geom = (ContentManager::Load<PxTriangleMesh>(L"Resources/Meshes/cylinder.ovpt"));
+	auto pCylinder = new GameObject();
+
+	pCylinder->AddComponent(new RigidBodyComponent(true));
+
+	AddChild(pCylinder);
+
+	geom = (ContentManager::Load<PxTriangleMesh>(L"Resources/Meshes/cylinder_03.ovpt"));
 
 	geometry = std::make_shared<PxTriangleMeshGeometry>(geom);
 
-	AddComponent(new ColliderComponent(geometry, *bouncyMaterial));
+	pCylinder->AddComponent(new ColliderComponent(geometry, *bouncyMaterial));
 
-	auto pCylinderModel = new ModelComponent(L"Resources/Meshes/cylinder.ovm");
+	auto pCylinderModel = new ModelComponent(L"Resources/Meshes/cylinder_03.ovm");
 
-	AddComponent(pCylinderModel);
+	pCylinderModel->SetMaterial(10);
+
+	pCylinder->AddComponent(pCylinderModel);
+
+	pCylinder->GetTransform()->Translate(132.0f, -5.0f, -70.0f);
+
+	//Curved wall
+	auto pCurvedWall = new GameObject();
+
+	pCurvedWall->AddComponent(new RigidBodyComponent(true));
+
+	AddChild(pCurvedWall);
+
+	geom = (ContentManager::Load<PxTriangleMesh>(L"Resources/Meshes/curved.ovpt"));
+
+	geometry = std::make_shared<PxTriangleMeshGeometry>(geom);
+
+	pCurvedWall->AddComponent(new ColliderComponent(geometry, *bouncyMaterial));
+
+	auto pCurvedModel = new ModelComponent(L"Resources/Meshes/curved.ovm");
+
+	pCurvedModel->SetMaterial(10);
+
+	pCurvedWall->AddComponent(pCurvedModel);
+
+	pCurvedWall->GetTransform()->Translate(160.0f, 0.0f, -100.0f);
+
+
 }
 
 void Level::InitItems(const GameContext & gameContext)
@@ -97,7 +130,7 @@ void Level::InitItems(const GameContext & gameContext)
 		AddChild(m_VectorPickups.at(i));
 	}
 
-	m_pEnemy = new Enemy({50.0f, 0.0f, 50.0f}, {-50.0f,0.0f,50.0f}, {-50.0f,0.0f,-50.0f}, { 50.0f,0.0f,-50.0f });
+	m_pEnemy = new Enemy({105.0f, 0.0f, -90.0f}, {105.0f,0.0f,110.0f}, {55.0f,0.0f,-90.0f}, { 55.0f,0.0f,-110.0f });
 	m_pEnemy->SetOnTriggerCallBack(EnemyTrigger);
 	AddChild(m_pEnemy);
 

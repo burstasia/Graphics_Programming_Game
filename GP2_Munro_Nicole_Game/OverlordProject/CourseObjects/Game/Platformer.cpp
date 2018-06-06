@@ -31,6 +31,11 @@ void Platformer::Initialize(const GameContext & gameContext)
 {
 	GetPhysxProxy()->EnablePhysxDebugRendering(true);
 
+	//MAIN MATERIAL
+	auto pDiffuseMaterial = new DiffuseMaterial();
+	pDiffuseMaterial->SetDiffuseTexture(L"Resources/Textures/master.png");
+	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterial, UINT(10));
+
 
 	//GROUND
 	//auto pGround = new Level();

@@ -39,6 +39,10 @@ Enemy::~Enemy()
 
 void Enemy::Initialize(const GameContext & gameContext)
 {
+
+	//TO DO CHANGE 4 POINTS INIT TO
+	//1 POINT AND WIDTH + DEPTH
+
 	auto physX = PhysxManager::GetInstance()->GetPhysics();
 	auto bouncyMaterial = physX->createMaterial(0.5, 0.5, 1.0f);
 
