@@ -67,6 +67,17 @@ void Level::InitLevel(const GameContext & gameContext)
 	AddComponent(pGroundModel);
 
 	pGroundModel->SetMaterial(0);
+
+	//Cylinder
+	geom = (ContentManager::Load<PxTriangleMesh>(L"Resources/Meshes/cylinder.ovpt"));
+
+	geometry = std::make_shared<PxTriangleMeshGeometry>(geom);
+
+	AddComponent(new ColliderComponent(geometry, *bouncyMaterial));
+
+	auto pCylinderModel = new ModelComponent(L"Resources/Meshes/cylinder.ovm");
+
+	AddComponent(pCylinderModel);
 }
 
 void Level::InitItems(const GameContext & gameContext)
