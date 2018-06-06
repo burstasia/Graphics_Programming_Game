@@ -28,5 +28,10 @@ private:
 	Character * m_pCharacter;
 	
 	State m_State;
+
+	bool m_CanShootFireball;
+	float m_CooldownTotal;
+	float m_CooldownCurr;
+
 };
 

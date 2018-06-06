@@ -23,6 +23,7 @@ private:
 
 	static void ItemTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 	static void EnemyTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
+	static void FireballTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 
 	//GameObject *m_Diamond;
 

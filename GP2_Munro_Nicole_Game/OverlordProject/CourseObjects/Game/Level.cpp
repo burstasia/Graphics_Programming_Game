@@ -42,8 +42,7 @@ void Level::Update(const GameContext & gameContext)
 
 void Level::SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec)
 {
-	auto fireball = new Fireball(startPos, forwardVec);
-
+	auto fireball = new Fireball(startPos, forwardVec, this);
 	AddChildRuntime(fireball);
 }
 
@@ -91,6 +90,7 @@ void Level::InitItems(const GameContext & gameContext)
 	m_pEnemy->SetOnTriggerCallBack(EnemyTrigger);
 	AddChild(m_pEnemy);
 
+
 }
 
 void Level::ItemTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
@@ -124,3 +124,16 @@ void Level::EnemyTrigger(GameObject * triggerobject, GameObject * otherobject, T
 	}
 
 }
+
+void Level::FireballTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
+{
+	auto fireball = static_cast<Fireball*>(otherobject);
+	auto enemy = dynamic_cast<Enemy*>(triggerobject);
+
+	if (enemy && fireball)
+	{
+		fireball->SetIsAlive(false);
+	}
+
+}
+

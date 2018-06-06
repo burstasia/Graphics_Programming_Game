@@ -13,6 +13,8 @@
 #include "Scenegraph/GameScene.h"
 
 #include "Materials/DiffuseMaterial.h"
+#include "EnemyCollision.h"
+#include "Fireball.h"
 
 Enemy::Enemy(XMFLOAT3 p1, XMFLOAT3 p2, XMFLOAT3 p3, XMFLOAT3 p4):
 	m_Speed(0.5f),
@@ -89,6 +91,10 @@ void Enemy::Initialize(const GameContext & gameContext)
 		if (tempVec.at(i).z < m_MinZ) m_MinZ = tempVec.at(i).z;
 		else if(tempVec.at(i).z > m_MaxZ) m_MaxZ = tempVec.at(i).z;
 	}
+
+	auto enemyCollision = new EnemyCollision();
+	enemyCollision->SetOnTriggerCallBack(FireballTrigger);
+	AddChild(enemyCollision);
 }
 
 void Enemy::Update(const GameContext & gameContext)
@@ -204,4 +210,15 @@ void Enemy::Move(float elapsedSec)
 	XMFLOAT3 pos = GetTransform()->GetPosition();
 
 	GetTransform()->Translate(pos.x + vec.x, pos.y + vec.y, pos.z + vec.z);
+}
+
+void Enemy::FireballTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
+{
+	auto fireball = static_cast<Fireball*>(otherobject);
+	auto enemy = dynamic_cast<EnemyCollision*>(triggerobject);
+
+	if (enemy && fireball)
+	{
+		fireball->SetIsAlive(false);
+	}
 }

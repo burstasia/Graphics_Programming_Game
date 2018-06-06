@@ -9,7 +9,10 @@
 
 MainCharacter::MainCharacter(Character * chara):
 	m_pCharacter(chara),
-	m_State(State::idle)
+	m_State(State::idle),
+	m_CanShootFireball(true),
+	m_CooldownCurr(0.0f),
+	m_CooldownTotal(0.5f)
 {
 }
 
@@ -79,8 +82,23 @@ void MainCharacter::Update(const GameContext & gameContext)
 
 			if (level)
 			{
-				level->SpawnFireball(GetTransform()->GetPosition(), GetTransform()->GetForward());
+				if (m_CanShootFireball)
+				{
+					level->SpawnFireball(GetTransform()->GetPosition(), GetTransform()->GetForward());
+					m_CanShootFireball = false;
+				}
 			}
+		}
+	}
+
+	if (!m_CanShootFireball)
+	{
+		m_CooldownCurr += gameContext.pGameTime->GetElapsed();
+
+		if (m_CooldownCurr >= m_CooldownTotal)
+		{
+			m_CooldownCurr = 0.0f;
+			m_CanShootFireball = true;
 		}
 	}
 }

@@ -40,7 +40,6 @@ void Platformer::Initialize(const GameContext & gameContext)
 	//CHARACTER
 	//auto chara = new Character();
 	m_Character = new Character();
-	
 	AddChild(m_Character);
 
 	m_pMainCharacter = new MainCharacter(m_Character);

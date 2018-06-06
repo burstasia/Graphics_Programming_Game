@@ -45,5 +45,6 @@ private:
 	float GetDistance(const XMFLOAT3& v1, const XMFLOAT3& v2);
 	void Move(float elapsedSec);
 
+	static void FireballTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 };
 

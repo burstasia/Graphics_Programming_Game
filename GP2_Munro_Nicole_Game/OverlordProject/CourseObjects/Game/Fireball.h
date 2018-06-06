@@ -1,10 +1,13 @@
 #pragma once
 #include "Scenegraph/GameObject.h"
 
+class Level;
+
+
 class Fireball final : public GameObject
 {
 public:
-	Fireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
+	Fireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec, Level* pLevel);
 	~Fireball();
 
 	void Initialize(const GameContext & gameContext);
@@ -23,5 +26,7 @@ private:
 	float m_TotalTimeAlive;
 
 	bool m_IsAlive;
+
+	Level* m_pLevel;
 };
 
