@@ -47,6 +47,12 @@ void Level::SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec)
 	AddChildRuntime(fireball);
 }
 
+void Level::DeletePickup(Pickup * pickupToDelete)
+{
+	RemoveChildRuntime(pickupToDelete);
+
+}
+
 void Level::InitLevel(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
@@ -126,9 +132,8 @@ void Level::InitItems(const GameContext & gameContext)
 
 		auto pickUp = new Pickup(XMFLOAT3(randX, randY, randZ));
 
-		m_VectorPickups.push_back(pickUp);
-		m_VectorPickups.at(i)->SetOnTriggerCallBack(ItemTrigger);
-		AddChild(m_VectorPickups.at(i));
+		pickUp->SetOnTriggerCallBack(ItemTrigger);
+		AddChild(pickUp);
 	}
 
 	m_pEnemy = new Enemy({105.0f, 0.0f, -90.0f}, {105.0f,0.0f,110.0f}, {55.0f,0.0f,-90.0f}, { 55.0f,0.0f,-110.0f });

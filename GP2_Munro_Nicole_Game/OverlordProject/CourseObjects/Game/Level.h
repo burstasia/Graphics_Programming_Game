@@ -3,7 +3,7 @@
 #include "Pickup.h"
 
 class Character;
-
+class Fireball;
 
 class Level final : public GameObject
 {
@@ -15,6 +15,7 @@ public:
 	void Update(const GameContext & gameContext);
 
 	void SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
+	void DeletePickup(Pickup* pickupToDelete);
 
 private:
 	friend class Enemy;
@@ -27,11 +28,6 @@ private:
 	static void FireballTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 
 	//GameObject *m_Diamond;
-
-	bool m_AddForce = false;
-
-	std::vector<Pickup*> m_VectorPickups;
-
 	Enemy* m_pEnemy;
 };
 

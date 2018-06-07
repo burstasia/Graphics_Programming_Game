@@ -28,10 +28,12 @@ private:
 	Character * m_pCharacter;
 	
 	State m_State;
+	State m_StateLastFrame;
 
 	bool m_CanShootFireball;
 	float m_CooldownTotal;
 	float m_CooldownCurr;
 
+	GameObject * m_pModelObject;
 };
 

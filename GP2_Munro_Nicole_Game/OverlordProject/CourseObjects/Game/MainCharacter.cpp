@@ -10,9 +10,10 @@
 MainCharacter::MainCharacter(Character * chara):
 	m_pCharacter(chara),
 	m_State(State::idle),
+	m_StateLastFrame(State::idle),
 	m_CanShootFireball(true),
 	m_CooldownCurr(0.0f),
-	m_CooldownTotal(0.5f)
+	m_CooldownTotal(1.0f)
 {
 }
 
@@ -23,7 +24,10 @@ MainCharacter::~MainCharacter()
 
 void MainCharacter::Initialize(const GameContext & gameContext)
 {
-	auto model = new ModelComponent(L"Resources/Meshes/idle.ovm");
+	m_pModelObject = new GameObject();
+
+
+	auto model = new ModelComponent(L"Resources/Meshes/Dragon.ovm");
 
 	auto pDiffuseMaterial = new SkinnedDiffuseMaterial();
 	pDiffuseMaterial->SetDiffuseTexture(L"Resources/Textures/Dragon.png");
@@ -31,12 +35,13 @@ void MainCharacter::Initialize(const GameContext & gameContext)
 
 	model->SetMaterial(3);
 
-	AddComponent(model);
-
-	//model->GetAnimator()->SetAnimation(0);
+	m_pModelObject->AddComponent(model);
 
 	GetTransform()->Scale(0.05f, 0.05f, 0.05f);
-	//GetTransform()->Rotate(0.0f, 180.0f, 0.0f);
+
+	m_pModelObject->GetTransform()->Rotate(0.0f, 180.0f, 0.0f);
+
+	AddChild(m_pModelObject);
 
 	//INPUT
 	gameContext.pInput->AddInputAction(InputAction(50, Down, 'E'));
@@ -44,14 +49,15 @@ void MainCharacter::Initialize(const GameContext & gameContext)
 
 void MainCharacter::Update(const GameContext & gameContext)
 {
+	m_StateLastFrame = m_State;
 	//Get rotations of character
 	//Get positions of character
 	//Update self with these
-	GetComponent<ModelComponent>()->GetAnimator()->Play();
+	m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->Play();
 
 	if (m_pCharacter->GetState() == Character::State::flying)
 	{
-		m_State = State::flying;
+		if (m_State != State::fireball)m_State = State::flying;
 
 		auto velocity = m_pCharacter->GetVelocity();
 
@@ -68,7 +74,11 @@ void MainCharacter::Update(const GameContext & gameContext)
 
 		GetTransform()->Rotate(0.0f, angle - 180, 0.0f);
 	}
-	else m_State = State::idle;
+	else
+	{
+		if(m_State != State::fireball)m_State = State::idle;
+		
+	}
 
 	if (gameContext.pInput->IsActionTriggered(50))
 	{
@@ -86,6 +96,7 @@ void MainCharacter::Update(const GameContext & gameContext)
 				{
 					level->SpawnFireball(GetTransform()->GetPosition(), GetTransform()->GetForward());
 					m_CanShootFireball = false;
+					m_State = State::fireball;
 				}
 			}
 		}
@@ -93,17 +104,42 @@ void MainCharacter::Update(const GameContext & gameContext)
 
 	if (!m_CanShootFireball)
 	{
+		m_State = State::fireball;
+
 		m_CooldownCurr += gameContext.pGameTime->GetElapsed();
 
 		if (m_CooldownCurr >= m_CooldownTotal)
 		{
 			m_CooldownCurr = 0.0f;
 			m_CanShootFireball = true;
+			m_State = State::idle;
 		}
 	}
+
+	if (m_State != m_StateLastFrame)
+	{
+		switch (m_State)
+		{
+		case MainCharacter::idle:
+			m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
+			break;
+		case MainCharacter::flying:
+			m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(1);
+			break;
+		case MainCharacter::stunned:
+			m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(4);
+			break;
+		case MainCharacter::fireball:
+			m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(2);
+			break;
+		default:
+			break;
+		}
+	}
+	
 }
 
 void MainCharacter::PostInit()
 {
-	GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
+	m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(1);
 }

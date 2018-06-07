@@ -17,8 +17,8 @@ Character::Character(float radius, float height, float moveSpeed) :
 	m_RotationSpeed(90.f),
 	//Running
 	m_MaxRunVelocity(50.0f),
-	m_TerminalVelocity(20),
-	m_Gravity(9.81f),
+	m_TerminalVelocity(100),
+	m_Gravity(250.0f),
 	m_RunAccelerationTime(0.3f),
 	m_JumpAccelerationTime(0.8f),
 	m_RunAcceleration(m_MaxRunVelocity / m_RunAccelerationTime),
@@ -122,19 +122,22 @@ void Character::Update(const GameContext& gameContext)
 
 		XMFLOAT3 currPosFloat3;
 		XMStoreFloat3(&currPosFloat3, currPos);
-		if (currPosFloat3.y >= 5)
+		if (!m_pController->GetCollisionFlags().isSet(PxControllerCollisionFlag::eCOLLISION_DOWN))
 		{
-			m_JumpVelocity += m_JumpAcceleration * elapsed;
-			if (m_JumpVelocity >= m_TerminalVelocity)
-			{
-				m_JumpVelocity = m_TerminalVelocity;
-			}
+			m_JumpVelocity = m_JumpAcceleration * elapsed;
 			m_Velocity.y -= m_JumpVelocity;
+
+			if (m_Velocity.y <= -m_TerminalVelocity)
+			{
+				m_Velocity.y = -m_TerminalVelocity;
+			}
+			//m_State = State::idle;
 		}
 		else if (move.y != 0)
 		{
 			m_JumpVelocity = 0;
-			m_Velocity.y = 200;
+			m_Velocity.y = 100;
+			m_State = State::flying;
 		}
 		else
 		{
@@ -146,8 +149,8 @@ void Character::Update(const GameContext& gameContext)
 
 		m_TotalYaw += look.x * m_RotationSpeed * elapsed;
 		m_TotalPitch += look.y * m_RotationSpeed * elapsed;
-		if (m_TotalPitch > 75.0f) m_TotalPitch = 75.0f;
-		if (m_TotalPitch < 15.0f) m_TotalPitch = 15.0f;
+		if (m_TotalPitch > 100.0f) m_TotalPitch = 100.0f;
+		if (m_TotalPitch < 5.0f) m_TotalPitch = 5.0f;
 		GetTransform()->Rotate(m_TotalPitch, m_TotalYaw, 0);
 	}
 
