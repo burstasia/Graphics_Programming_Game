@@ -2,6 +2,7 @@
 #include "Scenegraph/GameObject.h"
 
 class Character;
+class ControllerComponent;
 
 class Enemy final: public GameObject
 {
@@ -11,6 +12,7 @@ public:
 
 	void Initialize(const GameContext & gameContext);
 	void Update(const GameContext & gameContext);
+	void PostInit();
 
 	const bool GetIsFollowing() const { return m_IsFollowing; }
 	void SetIsFollowing(bool isFollowing) { m_IsFollowing = isFollowing; }
@@ -38,12 +40,19 @@ private:
 	float m_MaxZ;
 	float m_MinZ;
 
+	ControllerComponent* m_pController;
 
 	Character* m_pCharacter;
+
+	XMFLOAT3 m_Velocity;
+
+	GameObject* m_pEnemyModel;
+
 	void EnemyMovement(float elapsedSec);
 	void FollowPlayerMovement(float elapsedSec);
 	float GetDistance(const XMFLOAT3& v1, const XMFLOAT3& v2);
 	void Move(float elapsedSec);
+	void GetMinMax();
 
 	static void FireballTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 };

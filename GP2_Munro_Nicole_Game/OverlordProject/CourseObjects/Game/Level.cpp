@@ -12,6 +12,7 @@
 #include "../Week2/Character.h"
 #include "Pickup.h"
 #include "Enemy.h"
+#include "EnemyCollisionPlayer.h"
 #include "Fireball.h"
 
 Level::Level()
@@ -133,7 +134,7 @@ void Level::InitItems(const GameContext & gameContext)
 	m_pEnemy = new Enemy({105.0f, 0.0f, -90.0f}, {105.0f,0.0f,110.0f}, {55.0f,0.0f,-90.0f}, { 55.0f,0.0f,-110.0f });
 	m_pEnemy->SetOnTriggerCallBack(EnemyTrigger);
 	AddChild(m_pEnemy);
-
+	m_pEnemy->PostInit();
 
 }
 
@@ -159,7 +160,7 @@ void Level::EnemyTrigger(GameObject * triggerobject, GameObject * otherobject, T
 {
 	auto chara = dynamic_cast<Character*>(otherobject);
 
-	auto enemy = static_cast<Enemy*>(triggerobject);
+	auto enemy = static_cast<EnemyCollisionPlayer*>(triggerobject);
 
 	if (chara && enemy)
 	{

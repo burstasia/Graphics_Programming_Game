@@ -112,6 +112,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClCompile Include="CourseObjects\Game\MainCharacter.cpp" />
     <ClCompile Include="CourseObjects\Game\Fireball.cpp" />
     <ClCompile Include="CourseObjects\Game\EnemyCollision.cpp" />
+    <ClCompile Include="CourseObjects\Game\EnemyCollisionPlayer.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial.cpp" />
     <ClCompile Include="Materials\ColorMaterial.cpp" />
@@ -164,6 +165,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClInclude Include="CourseObjects\Game\MainCharacter.h" />
     <ClInclude Include="CourseObjects\Game\Fireball.h" />
     <ClInclude Include="CourseObjects\Game\EnemyCollision.h" />
+    <ClInclude Include="CourseObjects\Game\EnemyCollisionPlayer.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\DiffuseMaterial.h" />
     <ClInclude Include="Materials\ColorMaterial.h" />

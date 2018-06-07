@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "EnemyCollision.h"
+#include "EnemyCollisionPlayer.h"
 
 #include "Components/Components.h"
 #include "Physx/PhysxManager.h"
 #include "Scenegraph/GameObject.h"
 
-
-EnemyCollision::EnemyCollision()
+EnemyCollisionPlayer::EnemyCollisionPlayer()
 {
+	
 }
 
 
-EnemyCollision::~EnemyCollision()
+EnemyCollisionPlayer::~EnemyCollisionPlayer()
 {
 }
 
-void EnemyCollision::Initialize(const GameContext & gameContext)
+void EnemyCollisionPlayer::Initialize(const GameContext & gameContext)
 {
 	auto physX = PhysxManager::GetInstance()->GetPhysics();
 	auto bouncyMaterial = physX->createMaterial(0.5, 0.5, 1.0f);
@@ -26,16 +26,16 @@ void EnemyCollision::Initialize(const GameContext & gameContext)
 
 	rigidBody->SetKinematic(true);
 
-	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(2.0f, 4.0f, 2.0f));
+	std::shared_ptr<PxGeometry> geometry(new PxBoxGeometry(6.0f,4.0f,6.0f));
 
-	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f, 0.0f, 0.0f)));
+	ColliderComponent *collider = new ColliderComponent(geometry, *bouncyMaterial, PxTransform(PxVec3(0.0f,0.0f,-4.0f)));
 
 	collider->EnableTrigger(true);
 
 	AddComponent(collider);
 }
 
-void EnemyCollision::Update(const GameContext & gameContext)
+void EnemyCollisionPlayer::Update(const GameContext & gameContext)
 {
 	GetTransform()->Translate(GetParent()->GetTransform()->GetPosition());
 	GetTransform()->Rotate(GetParent()->GetTransform()->GetRotation().x, GetParent()->GetTransform()->GetRotation().y, GetParent()->GetTransform()->GetRotation().z);

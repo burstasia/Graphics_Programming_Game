@@ -3,7 +3,7 @@
 #include "Pickup.h"
 
 class Character;
-class Enemy;
+
 
 class Level final : public GameObject
 {
@@ -17,6 +17,7 @@ public:
 	void SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
 
 private:
+	friend class Enemy;
 
 	void InitLevel(const GameContext & gameContext);
 	void InitItems(const GameContext & gameContext);
