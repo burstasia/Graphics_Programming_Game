@@ -73,7 +73,7 @@ void Level::InitLevel(const GameContext & gameContext)
 
 	AddComponent(pGroundModel);
 
-	pGroundModel->SetMaterial(0);
+	pGroundModel->SetMaterial(10);
 
 	//Cylinder
 	auto pCylinder = new GameObject();
@@ -115,8 +115,26 @@ void Level::InitLevel(const GameContext & gameContext)
 
 	pCurvedWall->AddComponent(pCurvedModel);
 
-	pCurvedWall->GetTransform()->Translate(160.0f, 0.0f, -100.0f);
+	//gate
+	auto pGateEntrance = new GameObject();
 
+	pGateEntrance->AddComponent(new RigidBodyComponent(true));
+
+	AddChild(pGateEntrance);
+
+	geom = (ContentManager::Load<PxTriangleMesh>(L"Resources/Meshes/gate.ovpt"));
+
+	geometry = std::make_shared<PxTriangleMeshGeometry>(geom);
+
+	pGateEntrance->AddComponent(new ColliderComponent(geometry, *bouncyMaterial));
+
+	auto pGateModel = new ModelComponent(L"Resources/Meshes/gate.ovm");
+
+	pGateModel->SetMaterial(10);
+
+	pGateEntrance->AddComponent(pGateModel);
+
+	pGateEntrance->GetTransform()->Translate(-25.0f, 0.0f, -120.0f);
 
 }
 

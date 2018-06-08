@@ -56,6 +56,7 @@ void Character::Initialize(const GameContext& gameContext)
 	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::RIGHT, Down, 'D'));
 	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::LEFT, Down, 'A'));
 	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::JUMP, Down, VK_SPACE));
+	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::GLIDE, Down, VK_SHIFT));
 }
 
 void Character::PostInitialize(const GameContext& gameContext)
@@ -84,7 +85,20 @@ void Character::Update(const GameContext& gameContext)
 		move.x = gameContext.pInput->IsActionTriggered(RIGHT) ? 1.0f : 0.0f;
 		if (move.x == 0) move.x = gameContext.pInput->IsActionTriggered(LEFT) ? -1.0f : 0.0f;
 
-		move.y = gameContext.pInput->IsActionTriggered(JUMP) ? 1.0f : 0.0f;
+		if (gameContext.pInput->IsActionTriggered(GLIDE))
+		{
+			m_TerminalVelocity = 20.0f;
+			m_Gravity = 100.0f;
+			move.y = 1.0f;
+			//m_State == State::gliding;
+		}
+		else if (gameContext.pInput->IsActionTriggered(JUMP))
+		{
+			m_TerminalVelocity = 100.0f;
+			m_Gravity = 250.0f;
+			move.y = 1.0f;
+		}
+		
 
 
 		XMFLOAT2 look = XMFLOAT2(0, 0);

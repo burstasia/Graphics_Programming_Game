@@ -13,13 +13,15 @@ public:
 		RIGHT,
 		FORWARD,
 		BACKWARD,
-		JUMP
+		JUMP,
+		GLIDE
 	};
 
 	enum State
 	{
 		flying,
-		idle
+		idle,
+		gliding
 	};
 
 	Character(float radius = 2, float height = 5, float moveSpeed = 100);
