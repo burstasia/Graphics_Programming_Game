@@ -7,7 +7,7 @@ class ControllerComponent;
 class Enemy final: public GameObject
 {
 public:
-	Enemy(XMFLOAT3 p1, XMFLOAT3 p2, XMFLOAT3 p3, XMFLOAT3 p4);
+	Enemy(XMFLOAT3 midPoint, float width, float height);
 	~Enemy();
 
 	void Initialize(const GameContext & gameContext);
@@ -30,10 +30,9 @@ private:
 	float m_TotalFollowTime;
 	float m_CurrFollowTime;
 
-	XMFLOAT3 m_P1;
-	XMFLOAT3 m_P2;
-	XMFLOAT3 m_P3;
-	XMFLOAT3 m_P4;
+	XMFLOAT3 m_Midpoint;
+	float m_Width;
+	float m_Height;
 
 	float m_MaxX;
 	float m_MinX;

@@ -142,11 +142,11 @@ void Level::InitItems(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 30; i++)
 	{
-		float randX = rand() % 100 + (-50);
+		float randX = rand() % 500 + (-250);
 		float randY = rand() % 5 + 2;
-		float randZ = rand() % 100 + (-50);
+		float randZ = rand() % 500 + (-250);
 
 		auto pickUp = new Pickup(XMFLOAT3(randX, randY, randZ));
 
@@ -154,7 +154,7 @@ void Level::InitItems(const GameContext & gameContext)
 		AddChild(pickUp);
 	}
 
-	m_pEnemy = new Enemy({105.0f, 0.0f, -90.0f}, {105.0f,0.0f,110.0f}, {55.0f,0.0f,-90.0f}, { 55.0f,0.0f,-110.0f });
+	m_pEnemy = new Enemy({0.0f, 0.0f, 70.0f}, 300.0f, 80.0f);
 	m_pEnemy->SetOnTriggerCallBack(EnemyTrigger);
 	AddChild(m_pEnemy);
 	m_pEnemy->PostInit();

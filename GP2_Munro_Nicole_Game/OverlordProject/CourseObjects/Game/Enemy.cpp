@@ -19,7 +19,7 @@
 #include "Platformer.h"
 #include "Level.h"
 
-Enemy::Enemy(XMFLOAT3 p1, XMFLOAT3 p2, XMFLOAT3 p3, XMFLOAT3 p4):
+Enemy::Enemy(XMFLOAT3 midPoint, float width, float height):
 	m_Speed(0.1f),
 	m_GoalX(0.0f),
 	m_GoalZ(0.0f),
@@ -28,10 +28,9 @@ Enemy::Enemy(XMFLOAT3 p1, XMFLOAT3 p2, XMFLOAT3 p3, XMFLOAT3 p4):
 	m_GoalSet(false),
 	m_TotalFollowTime(2.0f),
 	m_CurrFollowTime(0.0f),
-	m_P1(p1),
-	m_P2(p2),
-	m_P3(p3),
-	m_P4(p4),
+	m_Midpoint(midPoint),
+	m_Width(width),
+	m_Height(height),
 	m_Velocity(0.0f,0.0f,0.0f)
 {
 }
@@ -44,7 +43,6 @@ Enemy::~Enemy()
 void Enemy::Initialize(const GameContext & gameContext)
 {
 	
-
 	//TO DO CHANGE 4 POINTS INIT TO
 	//1 POINT AND WIDTH + DEPTH
 
@@ -81,6 +79,7 @@ void Enemy::Initialize(const GameContext & gameContext)
 	//WALKABLE AREA//
 	GetMinMax();
 
+	GetTransform()->Translate(m_Midpoint.x, m_Midpoint.y + 20.0f, m_Midpoint.z);
 }
 
 void Enemy::Update(const GameContext & gameContext)
@@ -199,28 +198,40 @@ void Enemy::Move(float elapsedSec)
 
 void Enemy::GetMinMax()
 {
-	//getting max and min values
-	std::vector<XMFLOAT3> tempVec{};
-	tempVec.push_back(m_P1);
-	tempVec.push_back(m_P2);
-	tempVec.push_back(m_P3);
-	tempVec.push_back(m_P4);
+	////getting max and min values
+	//std::vector<XMFLOAT3> tempVec{};
+	//tempVec.push_back(m_P1);
+	//tempVec.push_back(m_P2);
+	//tempVec.push_back(m_P3);
+	//tempVec.push_back(m_P4);
 
-	m_MaxX = 0;
-	m_MinX = tempVec.at(0).x;
-	m_MaxZ = 0;
-	m_MinZ = tempVec.at(0).z;
+	//m_MaxX = 0;
+	//m_MinX = tempVec.at(0).x;
+	//m_MaxZ = 0;
+	//m_MinZ = tempVec.at(0).z;
 
-	for (size_t i = 0; i < tempVec.size(); i++)
-	{
-		//min and max x
-		if (tempVec.at(i).x < m_MinX) m_MinX = tempVec.at(i).x;
-		else if (tempVec.at(i).x > m_MaxX) m_MaxX = tempVec.at(i).x;
+	//for (size_t i = 0; i < tempVec.size(); i++)
+	//{
+	//	//min and max x
+	//	if (tempVec.at(i).x < m_MinX) m_MinX = tempVec.at(i).x;
+	//	else if (tempVec.at(i).x > m_MaxX) m_MaxX = tempVec.at(i).x;
 
-		//min and max z
-		if (tempVec.at(i).z < m_MinZ) m_MinZ = tempVec.at(i).z;
-		else if (tempVec.at(i).z > m_MaxZ) m_MaxZ = tempVec.at(i).z;
-	}
+	//	//min and max z
+	//	if (tempVec.at(i).z < m_MinZ) m_MinZ = tempVec.at(i).z;
+	//	else if (tempVec.at(i).z > m_MaxZ) m_MaxZ = tempVec.at(i).z;
+	//}
+
+	//
+	//XMFLOAT3 midPoint{};
+	float widthDiv2 = m_Width / 2.0f; //x
+	float heightDiv2 = m_Height / 2.0f; //z
+
+	m_MaxX = m_Midpoint.x + widthDiv2;
+	m_MinX = m_Midpoint.x - widthDiv2;
+
+	m_MaxZ = m_Midpoint.z + heightDiv2;
+	m_MinZ = m_Midpoint.z - heightDiv2;
+
 }
 
 void Enemy::FireballTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)

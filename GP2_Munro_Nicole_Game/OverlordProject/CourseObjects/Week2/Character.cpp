@@ -87,8 +87,8 @@ void Character::Update(const GameContext& gameContext)
 
 		if (gameContext.pInput->IsActionTriggered(GLIDE))
 		{
-			m_TerminalVelocity = 20.0f;
-			m_Gravity = 100.0f;
+			m_TerminalVelocity = 10.0f;
+			m_Gravity = 80.0f;
 			move.y = 1.0f;
 			//m_State == State::gliding;
 		}
