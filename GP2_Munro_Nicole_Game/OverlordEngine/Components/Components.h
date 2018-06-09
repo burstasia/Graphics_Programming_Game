@@ -8,3 +8,4 @@
 #include "ColliderComponent.h"
 #include "ControllerComponent.h"
 #include "ModelComponent.h"
+#include "SpriteComponent.h"

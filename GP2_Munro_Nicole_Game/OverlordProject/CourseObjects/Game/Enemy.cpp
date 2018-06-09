@@ -198,31 +198,6 @@ void Enemy::Move(float elapsedSec)
 
 void Enemy::GetMinMax()
 {
-	////getting max and min values
-	//std::vector<XMFLOAT3> tempVec{};
-	//tempVec.push_back(m_P1);
-	//tempVec.push_back(m_P2);
-	//tempVec.push_back(m_P3);
-	//tempVec.push_back(m_P4);
-
-	//m_MaxX = 0;
-	//m_MinX = tempVec.at(0).x;
-	//m_MaxZ = 0;
-	//m_MinZ = tempVec.at(0).z;
-
-	//for (size_t i = 0; i < tempVec.size(); i++)
-	//{
-	//	//min and max x
-	//	if (tempVec.at(i).x < m_MinX) m_MinX = tempVec.at(i).x;
-	//	else if (tempVec.at(i).x > m_MaxX) m_MaxX = tempVec.at(i).x;
-
-	//	//min and max z
-	//	if (tempVec.at(i).z < m_MinZ) m_MinZ = tempVec.at(i).z;
-	//	else if (tempVec.at(i).z > m_MaxZ) m_MaxZ = tempVec.at(i).z;
-	//}
-
-	//
-	//XMFLOAT3 midPoint{};
 	float widthDiv2 = m_Width / 2.0f; //x
 	float heightDiv2 = m_Height / 2.0f; //z
 

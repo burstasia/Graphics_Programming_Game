@@ -36,6 +36,7 @@
     <ClCompile Include="CourseObjects\Game\EnemyCollision.cpp" />
     <ClCompile Include="CourseObjects\Game\EnemyCollisionPlayer.cpp" />
     <ClCompile Include="CourseObjects\Game\Score.cpp" />
+    <ClCompile Include="CourseObjects\Game\PauseScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -72,5 +73,6 @@
     <ClInclude Include="CourseObjects\Game\EnemyCollision.h" />
     <ClInclude Include="CourseObjects\Game\EnemyCollisionPlayer.h" />
     <ClInclude Include="CourseObjects\Game\Score.h" />
+    <ClInclude Include="CourseObjects\Game\PauseScreen.h" />
   </ItemGroup>
 </Project>

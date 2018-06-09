@@ -14,7 +14,8 @@ SpriteComponent::SpriteComponent(const wstring& spriteAsset, XMFLOAT2 pivot, XMF
 	m_SpriteAsset(spriteAsset),
 	m_Pivot(pivot),
 	m_Color(color),
-	m_pTexture(nullptr)
+	m_pTexture(nullptr),
+	m_IsVisible(false)
 {
 
 }
@@ -49,20 +50,24 @@ void SpriteComponent::Draw(const GameContext& gameContext)
 	if (!m_pTexture)
 		return;
 
-	// Here you need to draw the SpriteComponent using the Draw of the sprite renderer
-	SpriteRenderer * spriteRenderer{};
-	spriteRenderer = SpriteRenderer::GetInstance();
-	// The sprite renderer is a singleton
+	if (m_IsVisible)
+	{
+		// Here you need to draw the SpriteComponent using the Draw of the sprite renderer
+		SpriteRenderer * spriteRenderer{};
+		spriteRenderer = SpriteRenderer::GetInstance();
+		// The sprite renderer is a singleton
+
+
+		// you will need to position, the rotation and the scale
+		TransformComponent *trans = m_pGameObject->GetTransform();
+		
+
+		XMFLOAT3 rotation{ QuaternionToEuler(trans->GetRotation()) };
+
+		spriteRenderer->Draw(m_pTexture, m_Pos, m_Color, m_Pivot, XMFLOAT2(1, 1), rotation.z, trans->GetPosition().z);
+
+		// You can use the QuaternionToEuler function to help you with the z rotation 
+	}
 	
-	
-	// you will need to position, the rotation and the scale
-	TransformComponent *trans = m_pGameObject->GetTransform();
-	XMFLOAT2 pos { trans->GetPosition().x, trans->GetPosition().y };
-
-	XMFLOAT3 rotation{ QuaternionToEuler(trans->GetRotation()) };
-
-	spriteRenderer->Draw(m_pTexture, pos, m_Color, m_Pivot, XMFLOAT2(1,1), rotation.z, trans->GetPosition().z);
-
-	// You can use the QuaternionToEuler function to help you with the z rotation 
 
 }
