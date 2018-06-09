@@ -120,6 +120,10 @@ void Platformer::Update(const GameContext & gameContext)
 		}
 
 		break;
+
+	case Platformer::GAME_OVER:
+
+		break;
 	case Platformer::MAIN_MENU:
 		gameContext.pGameTime->Stop();
 		if (gameContext.pInput->IsActionTriggered(32))
@@ -150,9 +154,12 @@ void Platformer::ResetLevel(const GameContext& gameContext)
 {
 	m_Level->ResetLevel();
 
-	m_Character->GetTransform()->Translate(0.0f,0.0f,0.0f);
+	m_Character->GetTransform()->Translate(-6.0f,5.0f,-50.0f);
+	m_pMainCharacter->GetTransform()->Translate(-6.0f, 5.0f, -50.0f);
 
+	m_MainGameState = MainGameState::PLAYING;
 
+	m_PauseScreen->SetVisible(false);
 
-
+	gameContext.pGameTime->Start();
 }

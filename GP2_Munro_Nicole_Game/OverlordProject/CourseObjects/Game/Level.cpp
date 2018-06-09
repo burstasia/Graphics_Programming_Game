@@ -58,6 +58,16 @@ void Level::DeletePickup(Pickup * pickupToDelete)
 
 }
 
+void Level::SpawnPickup(XMFLOAT3 pos)
+{
+	auto pickUp = new Pickup(pos);
+	pickUp->SetOnTriggerCallBack(ItemTrigger);
+	AddChildRuntime(pickUp);
+	
+
+	m_pPickupVec.push_back(pickUp);
+}
+
 void Level::ResetLevel()
 {
 	for (auto pickup : m_pPickupVec)
@@ -81,23 +91,13 @@ void Level::ResetLevel()
 		m_pPickupVec.push_back(pickUp);
 	}
 
-	//for (auto enemy : m_pEnemyVec)
-	//{
-	//	enemy->ResetEnemy();
-	//	RemoveChildRuntime(enemy);
-	//}
+	for (auto enemy : m_pEnemyVec)
+	{
+		enemy->ResetEnemy();
+		
+	}
 
-	//m_pEnemyVec.clear();
-
-	//for (size_t i = 0; i < 3; i++)
-	//{
-	//	auto enemy = new Enemy({ 0.0f, 0.0f, 70.0f }, 300.0f, 80.0f);
-	//	enemy->SetOnTriggerCallBack(EnemyTrigger);
-	//	AddChildRuntime(enemy);
-	//	//enemy->PostInit();
-
-	//	m_pEnemyVec.push_back(enemy);
-	//}
+	
 
 }
 

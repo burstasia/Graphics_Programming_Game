@@ -34,6 +34,7 @@ private:
 	{
 		PLAYING,
 		PAUSED,
+		GAME_OVER,
 		MAIN_MENU
 	};
 

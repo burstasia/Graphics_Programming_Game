@@ -57,6 +57,8 @@ void Character::Initialize(const GameContext& gameContext)
 	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::LEFT, Down, 'A'));
 	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::JUMP, Down, VK_SPACE));
 	gameContext.pInput->AddInputAction(InputAction(CharacterMovement::GLIDE, Down, VK_SHIFT));
+
+	GetTransform()->Translate(-6.0f, 5.0f, -50.0f);
 }
 
 void Character::PostInitialize(const GameContext& gameContext)

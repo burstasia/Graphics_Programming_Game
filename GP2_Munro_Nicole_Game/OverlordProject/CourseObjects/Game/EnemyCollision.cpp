@@ -5,6 +5,8 @@
 #include "Physx/PhysxManager.h"
 #include "Scenegraph/GameObject.h"
 #include "Enemy.h"
+#include "Level.h"
+#include "Platformer.h"
 
 
 EnemyCollision::EnemyCollision()
@@ -45,5 +47,16 @@ void EnemyCollision::Update(const GameContext & gameContext)
 void EnemyCollision::Kill()
 {
 	auto parent = dynamic_cast<Enemy*>(GetParent());
-	parent->SetIsAlive(false);
+
+	if (parent->SetIsHit())
+	{
+		parent->SetIsAlive(false);
+
+		auto scene = dynamic_cast<Platformer*>(GetScene());
+
+		auto level = dynamic_cast<Level*>(scene->GetLevel());
+
+		level->SpawnPickup(GetParent()->GetTransform()->GetWorldPosition());
+	}
+	
 }

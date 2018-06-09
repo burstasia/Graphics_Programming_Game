@@ -46,6 +46,8 @@ void MainCharacter::Initialize(const GameContext & gameContext)
 
 	//INPUT
 	gameContext.pInput->AddInputAction(InputAction(50, Down, 'E'));
+
+	GetTransform()->Translate(-6.0f, 5.0f, -50.0f);
 }
 
 void MainCharacter::Update(const GameContext & gameContext)

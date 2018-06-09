@@ -32,7 +32,8 @@ Enemy::Enemy(XMFLOAT3 midPoint, float width, float height):
 	m_Midpoint(midPoint),
 	m_Width(width),
 	m_Height(height),
-	m_Velocity(0.0f,0.0f,0.0f)
+	m_Velocity(0.0f,0.0f,0.0f),
+	m_Lives(3)
 {
 }
 
@@ -116,7 +117,16 @@ void Enemy::PostInit()
 void Enemy::ResetEnemy()
 {
 	m_IsAlive = true;
+	m_Lives = 3;
 	GetTransform()->Translate(0.0f, 0.0f, 0.0f);
+}
+
+bool Enemy::SetIsHit()
+{
+	--m_Lives;
+
+	if (m_Lives <= 0) return true;
+	else return false;
 }
 
 void Enemy::EnemyMovement(float elapsedSec)
@@ -226,7 +236,8 @@ void Enemy::FireballTrigger(GameObject * triggerobject, GameObject * otherobject
 
 	if (enemy && fireball != nullptr)
 	{
-	    
+		enemy->Kill();
 		fireball->SetIsAlive(false);
+
 	}
 }

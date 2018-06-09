@@ -22,6 +22,7 @@ public:
 	void SetIsAlive(bool alive) { m_IsAlive = alive; }
 	void ResetEnemy();
 
+	bool SetIsHit();
 
 private:
 	bool m_IsAlive;
@@ -44,6 +45,8 @@ private:
 	float m_MinX;
 	float m_MaxZ;
 	float m_MinZ;
+
+	int m_Lives;
 
 	ControllerComponent* m_pController;
 

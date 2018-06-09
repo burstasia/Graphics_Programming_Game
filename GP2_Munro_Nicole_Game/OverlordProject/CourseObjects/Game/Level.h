@@ -17,6 +17,7 @@ public:
 	void SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
 	void DeleteFireball(Fireball* fireball);
 	void DeletePickup(Pickup* pickupToDelete);
+	void SpawnPickup(XMFLOAT3 pos);
 
 	void ResetLevel();
 
