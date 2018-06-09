@@ -6,6 +6,7 @@ class Level;
 class MainCharacter;
 class PauseScreen;
 class MainMenu;
+class GameOverScreen;
 
 class Platformer : public GameScene
 {
@@ -27,6 +28,7 @@ private:
 	MainCharacter * m_pMainCharacter;
 	PauseScreen * m_PauseScreen;
 	MainMenu * m_pMainMenu;
+	GameOverScreen * m_pGameOverScreen;
 
 	bool m_IsPaused;
 

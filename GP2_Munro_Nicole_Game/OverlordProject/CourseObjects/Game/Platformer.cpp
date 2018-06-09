@@ -18,6 +18,7 @@
 #include "MainCharacter.h"
 #include "PauseScreen.h"
 #include "MainMenu.h"
+#include "GameOverScreen.h"
 
 Platformer::Platformer():
 	GameScene(L"SpyroScene"),
@@ -67,6 +68,10 @@ void Platformer::Initialize(const GameContext & gameContext)
 	AddChild(m_pMainMenu);
 	m_pMainMenu->SetVisible(true);
 	gameContext.pGameTime->Stop();
+
+	//game over
+	m_pGameOverScreen = new GameOverScreen();
+	AddChild(m_pGameOverScreen);
 
 	gameContext.pInput->AddInputAction(InputAction(11, Released, VK_TAB));
 	gameContext.pInput->AddInputAction(InputAction(32, Released, VK_RETURN));
@@ -122,6 +127,30 @@ void Platformer::Update(const GameContext & gameContext)
 		break;
 
 	case Platformer::GAME_OVER:
+		gameContext.pGameTime->Stop();
+		if (gameContext.pInput->IsActionTriggered(32))
+		{
+			switch (m_pGameOverScreen->GetState())
+			{
+			case 0:
+				//restart
+				ResetLevel(gameContext);
+				break;
+
+			case 1:
+				//main menu
+				m_MainGameState = MainGameState::MAIN_MENU;
+				m_pMainMenu->SetVisible(true);
+				m_pGameOverScreen->SetVisible(false);
+				gameContext.pGameTime->Stop();
+				break;
+
+			case 2:
+				//exit
+				break;
+
+			}
+		}
 
 		break;
 	case Platformer::MAIN_MENU:
@@ -132,9 +161,11 @@ void Platformer::Update(const GameContext & gameContext)
 			{
 			case 0:
 				//play
-				m_MainGameState = MainGameState::PLAYING;
+				ResetLevel(gameContext);
+
+				/*m_MainGameState = MainGameState::PLAYING;
 				m_pMainMenu->SetVisible(false);
-				gameContext.pGameTime->Start();
+				gameContext.pGameTime->Start();*/
 				break;
 
 			case 1:
@@ -160,6 +191,7 @@ void Platformer::ResetLevel(const GameContext& gameContext)
 	m_MainGameState = MainGameState::PLAYING;
 
 	m_PauseScreen->SetVisible(false);
+	m_pGameOverScreen->SetVisible(false);
 
 	gameContext.pGameTime->Start();
 }

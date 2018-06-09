@@ -38,6 +38,7 @@
     <ClCompile Include="CourseObjects\Game\Score.cpp" />
     <ClCompile Include="CourseObjects\Game\PauseScreen.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="CourseObjects\Game\GameOverScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -76,5 +77,6 @@
     <ClInclude Include="CourseObjects\Game\Score.h" />
     <ClInclude Include="CourseObjects\Game\PauseScreen.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="CourseObjects\Game\GameOverScreen.h" />
   </ItemGroup>
 </Project>
