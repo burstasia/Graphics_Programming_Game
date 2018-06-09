@@ -53,8 +53,14 @@ void Fireball::Update(const GameContext & gameContext)
 
 		m_TimeAlive += gameContext.pGameTime->GetElapsed();
 
-		if (m_TimeAlive >= m_TotalTimeAlive) m_pLevel->RemoveChildRuntime(this);
+		if (m_TimeAlive >= m_TotalTimeAlive)
+		{
+			m_pLevel->DeleteFireball(this);
+		}
 		else GetTransform()->Translate(pos);
 	}
-	else m_pLevel->RemoveChildRuntime(this);
+	else
+	{
+		m_pLevel->DeleteFireball(this);
+	}
 }

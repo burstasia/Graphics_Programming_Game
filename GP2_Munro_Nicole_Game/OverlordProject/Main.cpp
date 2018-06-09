@@ -31,7 +31,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
 
 		IDXGIDebug* pDXGIDebug;
 		DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDXGIDebug);
-		//_CrtSetBreakAlloc(974);
+		//_CrtSetBreakAlloc(5617);
 	#endif
 
 	auto pGame = new MainGame();

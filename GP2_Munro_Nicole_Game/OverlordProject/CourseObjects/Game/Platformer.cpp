@@ -40,6 +40,10 @@ void Platformer::Initialize(const GameContext & gameContext)
 	pDiffuseMaterial->SetDiffuseTexture(L"Resources/Textures/master.png");
 	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterial, UINT(10));
 
+	//MATERIAL//
+	auto pDiffuseMaterialEnemy = new DiffuseMaterial();
+	pDiffuseMaterialEnemy->SetDiffuseTexture(L"Resources/Textures/Knight.jpg");
+	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterialEnemy, UINT(1));
 
 	//GROUND
 	m_Level = new Level();

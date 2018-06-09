@@ -20,6 +20,7 @@
 #include "Level.h"
 
 Enemy::Enemy(XMFLOAT3 midPoint, float width, float height):
+	m_IsAlive(true),
 	m_Speed(0.1f),
 	m_GoalX(0.0f),
 	m_GoalZ(0.0f),
@@ -60,10 +61,7 @@ void Enemy::Initialize(const GameContext & gameContext)
 
 	enemyModel->GetTransform()->Scale(0.03f, 0.03f, 0.03f);
 
-	//MATERIAL//
-	auto pDiffuseMaterial = new DiffuseMaterial();
-	pDiffuseMaterial->SetDiffuseTexture(L"Resources/Textures/Knight.jpg");
-	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterial, UINT(1));
+	
 	
 	enemyModel->SetMaterial(1);
 
@@ -84,17 +82,23 @@ void Enemy::Initialize(const GameContext & gameContext)
 
 void Enemy::Update(const GameContext & gameContext)
 {
-	if(!m_IsFollowing)EnemyMovement(gameContext.pGameTime->GetElapsed());
-	else FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
+	if (m_IsAlive)
+	{
+		if (!m_IsFollowing)EnemyMovement(gameContext.pGameTime->GetElapsed());
+		else FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
 
-	//Rotate with velocity
-	float angle = (atan2(m_Velocity.x, m_Velocity.z) * 180 / XM_PI) + 180.f;
-	GetTransform()->Rotate(0.0f, angle, 0.0f);
+		//Rotate with velocity
+		float angle = (atan2(m_Velocity.x, m_Velocity.z) * 180 / XM_PI) + 180.f;
+		GetTransform()->Rotate(0.0f, angle, 0.0f);
 
-	//Rotate and translate child
-	m_pEnemyModel->GetTransform()->Translate(GetParent()->GetTransform()->GetPosition().x, GetParent()->GetTransform()->GetPosition().y - 5.0f, GetParent()->GetTransform()->GetPosition().z);
-	m_pEnemyModel->GetTransform()->Rotate(GetParent()->GetTransform()->GetRotation().x, GetParent()->GetTransform()->GetRotation().y, GetParent()->GetTransform()->GetRotation().z);
-
+		//Rotate and translate child
+		m_pEnemyModel->GetTransform()->Translate(GetParent()->GetTransform()->GetPosition().x, GetParent()->GetTransform()->GetPosition().y - 5.0f, GetParent()->GetTransform()->GetPosition().z);
+		m_pEnemyModel->GetTransform()->Rotate(GetParent()->GetTransform()->GetRotation().x, GetParent()->GetTransform()->GetRotation().y, GetParent()->GetTransform()->GetRotation().z);
+	}
+	else
+	{
+		GetTransform()->Translate(0.0f, -100.0f, 0.0f);
+	}
 }
 
 void Enemy::PostInit()
@@ -107,6 +111,12 @@ void Enemy::PostInit()
 	auto enemyCollision = new EnemyCollisionPlayer();
 	enemyCollision->SetOnTriggerCallBack(level->EnemyTrigger);
 	AddChild(enemyCollision);
+}
+
+void Enemy::ResetEnemy()
+{
+	m_IsAlive = true;
+	GetTransform()->Translate(0.0f, 0.0f, 0.0f);
 }
 
 void Enemy::EnemyMovement(float elapsedSec)
@@ -211,11 +221,12 @@ void Enemy::GetMinMax()
 
 void Enemy::FireballTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)
 {
-	auto fireball = static_cast<Fireball*>(otherobject);
+	auto fireball = dynamic_cast<Fireball*>(otherobject);
 	auto enemy = dynamic_cast<EnemyCollision*>(triggerobject);
 
-	if (enemy && fireball)
+	if (enemy && fireball != nullptr)
 	{
+	    
 		fireball->SetIsAlive(false);
 	}
 }

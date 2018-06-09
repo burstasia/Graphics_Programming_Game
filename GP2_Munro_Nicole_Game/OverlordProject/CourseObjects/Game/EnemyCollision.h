@@ -16,7 +16,7 @@ public:
 	void Initialize(const GameContext & gameContext);
 	void Update(const GameContext & gameContext);
 
-
+	void Kill();
 private:
 
 

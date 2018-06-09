@@ -4,6 +4,7 @@
 #include "Components/Components.h"
 #include "Physx/PhysxManager.h"
 #include "Scenegraph/GameObject.h"
+#include "Enemy.h"
 
 
 EnemyCollision::EnemyCollision()
@@ -39,4 +40,10 @@ void EnemyCollision::Update(const GameContext & gameContext)
 {
 	GetTransform()->Translate(GetParent()->GetTransform()->GetPosition());
 	GetTransform()->Rotate(GetParent()->GetTransform()->GetRotation().x, GetParent()->GetTransform()->GetRotation().y, GetParent()->GetTransform()->GetRotation().z);
+}
+
+void EnemyCollision::Kill()
+{
+	auto parent = dynamic_cast<Enemy*>(GetParent());
+	parent->SetIsAlive(false);
 }

@@ -47,6 +47,11 @@ void Level::SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec)
 	AddChildRuntime(fireball);
 }
 
+void Level::DeleteFireball(Fireball * fireball)
+{
+	RemoveChildRuntime(fireball);
+}
+
 void Level::DeletePickup(Pickup * pickupToDelete)
 {
 	RemoveChildRuntime(pickupToDelete);
@@ -71,13 +76,28 @@ void Level::ResetLevel()
 		auto pickUp = new Pickup(XMFLOAT3(randX, randY, randZ));
 
 		pickUp->SetOnTriggerCallBack(ItemTrigger);
-		AddChild(pickUp);
+		AddChildRuntime(pickUp);
 
 		m_pPickupVec.push_back(pickUp);
 	}
 
+	//for (auto enemy : m_pEnemyVec)
+	//{
+	//	enemy->ResetEnemy();
+	//	RemoveChildRuntime(enemy);
+	//}
 
+	//m_pEnemyVec.clear();
 
+	//for (size_t i = 0; i < 3; i++)
+	//{
+	//	auto enemy = new Enemy({ 0.0f, 0.0f, 70.0f }, 300.0f, 80.0f);
+	//	enemy->SetOnTriggerCallBack(EnemyTrigger);
+	//	AddChildRuntime(enemy);
+	//	//enemy->PostInit();
+
+	//	m_pEnemyVec.push_back(enemy);
+	//}
 
 }
 
@@ -184,11 +204,16 @@ void Level::InitItems(const GameContext & gameContext)
 		m_pPickupVec.push_back(pickUp);
 	}
 
-	m_pEnemy = new Enemy({0.0f, 0.0f, 70.0f}, 300.0f, 80.0f);
-	m_pEnemy->SetOnTriggerCallBack(EnemyTrigger);
-	AddChild(m_pEnemy);
-	m_pEnemy->PostInit();
 
+	for (size_t i = 0; i < 3; i++)
+	{
+		auto enemy = new Enemy({ 0.0f, 0.0f, 70.0f }, 300.0f, 80.0f);
+		enemy->SetOnTriggerCallBack(EnemyTrigger);
+		AddChild(enemy);
+		enemy->PostInit();
+
+		m_pEnemyVec.push_back(enemy);
+	}
 }
 
 void Level::ItemTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)

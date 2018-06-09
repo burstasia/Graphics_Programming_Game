@@ -172,6 +172,8 @@ void GameObject::RemoveRuntime()
 			delete vec;
 			vec = nullptr;
 		}
+
+		m_pChildrenRemoveRuntime.clear();
 	}
 }
 

@@ -15,6 +15,7 @@ public:
 	void Update(const GameContext & gameContext);
 
 	void SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
+	void DeleteFireball(Fireball* fireball);
 	void DeletePickup(Pickup* pickupToDelete);
 
 	void ResetLevel();
@@ -29,8 +30,7 @@ private:
 	static void EnemyTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 	static void FireballTrigger(GameObject* triggerobject, GameObject* otherobject, TriggerAction action);
 
-	//GameObject *m_Diamond;
-	Enemy* m_pEnemy;
+	std::vector<Enemy*> m_pEnemyVec;
 	std::vector<Pickup*> m_pPickupVec;
 };
 

@@ -19,7 +19,13 @@ public:
 
 	void SetCharacterReference(Character* character) { m_pCharacter = character; }
 
+	void SetIsAlive(bool alive) { m_IsAlive = alive; }
+	void ResetEnemy();
+
+
 private:
+	bool m_IsAlive;
+
 	float m_Speed;
 	float m_GoalX;
 	float m_GoalZ;
