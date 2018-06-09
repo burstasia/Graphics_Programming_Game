@@ -50,7 +50,6 @@ void Platformer::Initialize(const GameContext & gameContext)
 	AddChild(m_Character);
 
 	m_pMainCharacter = new MainCharacter(m_Character);
-
 	AddChild(m_pMainCharacter);
 
 	m_pMainCharacter->PostInit();
@@ -99,17 +98,19 @@ void Platformer::Update(const GameContext & gameContext)
 
 			case 1:
 				//reset level
+				ResetLevel(gameContext);
 				break;
 
 			case 2:
 				//exit
-				break;
-
-			case 3:
 				m_MainGameState = MainGameState::MAIN_MENU;
 				m_pMainMenu->SetVisible(true);
 				m_PauseScreen->SetVisible(false);
 				gameContext.pGameTime->Stop();
+				
+				break;
+
+			case 3:
 				break;
 			}
 		}
@@ -139,4 +140,15 @@ void Platformer::Update(const GameContext & gameContext)
 void Platformer::Draw(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
+}
+
+void Platformer::ResetLevel(const GameContext& gameContext)
+{
+	m_Level->ResetLevel();
+
+	m_Character->GetTransform()->Translate(0.0f,0.0f,0.0f);
+
+
+
+
 }

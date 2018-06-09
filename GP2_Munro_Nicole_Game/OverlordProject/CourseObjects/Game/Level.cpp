@@ -53,6 +53,34 @@ void Level::DeletePickup(Pickup * pickupToDelete)
 
 }
 
+void Level::ResetLevel()
+{
+	for (auto pickup : m_pPickupVec)
+	{
+		RemoveChildRuntime(pickup);
+	}
+	
+	m_pPickupVec.clear();
+
+	for (size_t i = 0; i < 30; i++)
+	{
+		float randX = rand() % 500 + (-250);
+		float randY = rand() % 5 + 2;
+		float randZ = rand() % 500 + (-250);
+
+		auto pickUp = new Pickup(XMFLOAT3(randX, randY, randZ));
+
+		pickUp->SetOnTriggerCallBack(ItemTrigger);
+		AddChild(pickUp);
+
+		m_pPickupVec.push_back(pickUp);
+	}
+
+
+
+
+}
+
 void Level::InitLevel(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
@@ -152,6 +180,8 @@ void Level::InitItems(const GameContext & gameContext)
 
 		pickUp->SetOnTriggerCallBack(ItemTrigger);
 		AddChild(pickUp);
+
+		m_pPickupVec.push_back(pickUp);
 	}
 
 	m_pEnemy = new Enemy({0.0f, 0.0f, 70.0f}, 300.0f, 80.0f);

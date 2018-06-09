@@ -4,10 +4,10 @@
 
 MainMenu::MainMenu():
 	m_IsActive(false),
-	m_MoveDistance(10.0f),
-	m_MaxHeight(10.0f),
-	m_MinHeight(0.0f),
-	m_CurrPos(0.0f),
+	m_MoveDistance(100.0f),
+	m_MaxHeight(525.0f),
+	m_MinHeight(425.0f),
+	m_CurrPos(425.0f),
 	m_MainMenuState(MainMenuState::PLAY)
 {
 }
@@ -22,7 +22,7 @@ void MainMenu::Initialize(const GameContext & gameContext)
 	m_pIndicator = new SpriteComponent(L"./Resources/Textures/indicator.png");
 	AddComponent(m_pIndicator);
 
-	m_pMainMenu = new SpriteComponent(L"./Resources/Textures/Knight.jpg");
+	m_pMainMenu = new SpriteComponent(L"./Resources/Textures/Menu.png");
 	AddComponent(m_pMainMenu);
 
 	//INPUT FOR MENU
@@ -38,7 +38,7 @@ void MainMenu::Update(const GameContext & gameContext)
 		if (gameContext.pInput->IsActionTriggered(40)) MoveIndicatorDown();
 		if (gameContext.pInput->IsActionTriggered(41)) MoveIndicatorUp();
 
-		m_pIndicator->SetPosition({ 0.0f, m_CurrPos });
+		m_pIndicator->SetPosition({ 400.0f, m_CurrPos });
 		m_pMainMenu->SetPosition({ 0.0f, 0.0f });
 		//check position
 		//update state

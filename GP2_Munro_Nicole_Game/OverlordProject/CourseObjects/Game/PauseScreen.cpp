@@ -5,10 +5,10 @@
 
 PauseScreen::PauseScreen():
 	m_IsActive(false),
-	m_MoveDistance(10.0f),
-	m_MaxHeight(40.0f),
-	m_MinHeight(0.0f),
-	m_CurrPos(0.0f),
+	m_MoveDistance(86.0f),
+	m_MaxHeight(609.0f),
+	m_MinHeight(351.0f),
+	m_CurrPos(351.0f),
 	m_MenuState(MenuState::MAIN_MENU)
 {
 }
@@ -23,7 +23,7 @@ void PauseScreen::Initialize(const GameContext & gameContext)
 	m_pIndicator = new SpriteComponent(L"./Resources/Textures/indicator.png");
 	AddComponent(m_pIndicator);
 
-	m_pPause = new SpriteComponent(L"./Resources/Textures/Chair_Dark.dds");
+	m_pPause = new SpriteComponent(L"./Resources/Textures/PauseScreen.png");
 	AddComponent(m_pPause);
 
 	
@@ -42,8 +42,9 @@ void PauseScreen::Update(const GameContext & gameContext)
 		if (gameContext.pInput->IsActionTriggered(30)) MoveIndicatorDown();
 		if (gameContext.pInput->IsActionTriggered(31)) MoveIndicatorUp();
 
-		m_pIndicator->SetPosition({ 0.0f, m_CurrPos });
+		m_pIndicator->SetPosition({ 423.0f, m_CurrPos });
 		m_pPause->SetPosition({ 0.0f, 0.0f });
+	
 
 		m_Pos = (int)m_CurrPos / m_MoveDistance;
 

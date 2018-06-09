@@ -38,6 +38,9 @@ private:
 	};
 
 	MainGameState m_MainGameState;
+
+	void ResetLevel(const GameContext& gameContext);
+
 private:
 	// -------------------------
 	// Disabling default copy constructor and default 

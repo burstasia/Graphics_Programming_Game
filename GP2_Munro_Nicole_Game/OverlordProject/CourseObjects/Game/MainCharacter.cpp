@@ -24,6 +24,7 @@ MainCharacter::~MainCharacter()
 
 void MainCharacter::Initialize(const GameContext & gameContext)
 {
+
 	m_pModelObject = new GameObject();
 
 

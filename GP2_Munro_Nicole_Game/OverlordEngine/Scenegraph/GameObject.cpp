@@ -153,7 +153,7 @@ void GameObject::AddRuntime()
 
 void GameObject::RemoveRuntime()
 {
-	if (m_pChildrenRuntime.size() > 0)
+	if (m_pChildrenRemoveRuntime.size() > 0)
 	{
 		for (auto vec : m_pChildrenRemoveRuntime)
 		{

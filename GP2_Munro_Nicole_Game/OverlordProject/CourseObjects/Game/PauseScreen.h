@@ -11,9 +11,9 @@ public:
 	{
 		RESUME,
 		RESTART,
-		EXIT,
-		MAIN_MENU
-
+		MAIN_MENU,
+		EXIT
+		
 	};
 
 	PauseScreen();
@@ -25,20 +25,20 @@ public:
 	{ 
 		switch (m_Pos)
 		{
-		case 0:
+		case 4:
 			m_MenuState = MenuState::RESUME;
 			break;
 
-		case 1:
+		case 5:
 			m_MenuState = MenuState::RESTART;
 			break;
 
-		case 2:
-			m_MenuState = MenuState::EXIT;
+		case 6:
+			m_MenuState = MenuState::MAIN_MENU; 
 			break;
 
-		case 3:
-			m_MenuState = MenuState::MAIN_MENU;
+		case 7:
+			m_MenuState = MenuState::EXIT;
 			break;
 		}
 

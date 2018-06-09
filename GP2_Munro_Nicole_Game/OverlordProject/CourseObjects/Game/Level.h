@@ -17,6 +17,8 @@ public:
 	void SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec);
 	void DeletePickup(Pickup* pickupToDelete);
 
+	void ResetLevel();
+
 private:
 	friend class Enemy;
 
@@ -29,5 +31,6 @@ private:
 
 	//GameObject *m_Diamond;
 	Enemy* m_pEnemy;
+	std::vector<Pickup*> m_pPickupVec;
 };
 
