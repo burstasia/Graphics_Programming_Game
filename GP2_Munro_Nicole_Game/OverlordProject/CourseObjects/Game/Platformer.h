@@ -5,6 +5,7 @@ class Character;
 class Level;
 class MainCharacter;
 class PauseScreen;
+class MainMenu;
 
 class Platformer : public GameScene
 {
@@ -25,9 +26,18 @@ private:
 	Character * m_Character;
 	MainCharacter * m_pMainCharacter;
 	PauseScreen * m_PauseScreen;
+	MainMenu * m_pMainMenu;
 
 	bool m_IsPaused;
 
+	enum MainGameState
+	{
+		PLAYING,
+		PAUSED,
+		MAIN_MENU
+	};
+
+	MainGameState m_MainGameState;
 private:
 	// -------------------------
 	// Disabling default copy constructor and default 

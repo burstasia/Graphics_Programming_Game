@@ -17,9 +17,11 @@
 
 #include "MainCharacter.h"
 #include "PauseScreen.h"
+#include "MainMenu.h"
 
 Platformer::Platformer():
-	GameScene(L"SpyroScene")
+	GameScene(L"SpyroScene"),
+	m_MainGameState(MainGameState::MAIN_MENU)
 {
 }
 
@@ -57,6 +59,12 @@ void Platformer::Initialize(const GameContext & gameContext)
 	m_PauseScreen = new PauseScreen();
 	AddChild(m_PauseScreen);
 
+	//main menu
+	m_pMainMenu = new MainMenu();
+	AddChild(m_pMainMenu);
+	m_pMainMenu->SetVisible(true);
+	gameContext.pGameTime->Stop();
+
 	gameContext.pInput->AddInputAction(InputAction(11, Released, VK_TAB));
 	gameContext.pInput->AddInputAction(InputAction(32, Released, VK_RETURN));
 }
@@ -64,31 +72,66 @@ void Platformer::Initialize(const GameContext & gameContext)
 void Platformer::Update(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
-	if (gameContext.pInput->IsActionTriggered(11))
+	switch (m_MainGameState)
 	{
-		//pause everything
-		gameContext.pGameTime->Stop();
-		m_PauseScreen->SetVisible(true);
-		m_IsPaused = true;
-	}
-	if (gameContext.pInput->IsActionTriggered(32) && m_IsPaused)
-	{
-		switch (m_PauseScreen->GetState())
+	case Platformer::PLAYING:
+		m_pMainMenu->SetVisible(false);
+		m_PauseScreen->SetVisible(false);
+
+		if (gameContext.pInput->IsActionTriggered(11))
 		{
-		case 0:
-			m_IsPaused = false;
-			m_PauseScreen->SetVisible(false);
-			gameContext.pGameTime->Start();
-			break;
+			//pause everything
+			gameContext.pGameTime->Stop();
+			m_PauseScreen->SetVisible(true);
+			m_MainGameState = MainGameState::PAUSED;
+		}
+		break;
+	case Platformer::PAUSED:
+		if (gameContext.pInput->IsActionTriggered(32))
+		{
+			switch (m_PauseScreen->GetState())
+			{
+			case 0:
+				m_MainGameState = MainGameState::PLAYING;
+				m_PauseScreen->SetVisible(false);
+				gameContext.pGameTime->Start();
+				break;
 
-		case 1:
-			break;
+			case 1:
+				//reset level
+				break;
 
-		case 2:
-			break;
+			case 2:
+				//exit
+				break;
 
-		case 3:
-			break;
+			case 3:
+				m_MainGameState = MainGameState::MAIN_MENU;
+				m_pMainMenu->SetVisible(true);
+				m_PauseScreen->SetVisible(false);
+				gameContext.pGameTime->Stop();
+				break;
+			}
+		}
+
+		break;
+	case Platformer::MAIN_MENU:
+		gameContext.pGameTime->Stop();
+		if (gameContext.pInput->IsActionTriggered(32))
+		{
+			switch (m_pMainMenu->GetState())
+			{
+			case 0:
+				//play
+				m_MainGameState = MainGameState::PLAYING;
+				m_pMainMenu->SetVisible(false);
+				gameContext.pGameTime->Start();
+				break;
+
+			case 1:
+				//exit
+				break;
+			}
 		}
 	}
 }

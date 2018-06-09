@@ -6,7 +6,7 @@
 PauseScreen::PauseScreen():
 	m_IsActive(false),
 	m_MoveDistance(10.0f),
-	m_MaxHeight(50.0f),
+	m_MaxHeight(40.0f),
 	m_MinHeight(0.0f),
 	m_CurrPos(0.0f),
 	m_MenuState(MenuState::MAIN_MENU)
@@ -44,33 +44,9 @@ void PauseScreen::Update(const GameContext & gameContext)
 
 		m_pIndicator->SetPosition({ 0.0f, m_CurrPos });
 		m_pPause->SetPosition({ 0.0f, 0.0f });
-		//check position
-		//update state
-		//check if enter is hit
-		//update scene on what to do
 
 		m_Pos = (int)m_CurrPos / m_MoveDistance;
 
-		switch (m_Pos)
-		{
-		case 0:
-			m_MenuState = MenuState::RESUME;
-			break;
-
-		case 1:
-			m_MenuState = MenuState::RESTART;
-			break;
-
-		case 2:
-			m_MenuState = MenuState::EXIT;
-			break;
-
-		case 3:
-			m_MenuState = MenuState::MAIN_MENU;
-			break;
-		}
-
-		
 	}
 }
 

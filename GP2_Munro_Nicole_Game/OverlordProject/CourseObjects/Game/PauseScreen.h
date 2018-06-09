@@ -21,7 +21,30 @@ public:
 
 	virtual void Initialize(const GameContext& gameContext);
 	virtual void Update(const GameContext& gameContext);
-	MenuState GetState() { return m_MenuState; }
+	MenuState GetState() 
+	{ 
+		switch (m_Pos)
+		{
+		case 0:
+			m_MenuState = MenuState::RESUME;
+			break;
+
+		case 1:
+			m_MenuState = MenuState::RESTART;
+			break;
+
+		case 2:
+			m_MenuState = MenuState::EXIT;
+			break;
+
+		case 3:
+			m_MenuState = MenuState::MAIN_MENU;
+			break;
+		}
+
+		return m_MenuState;
+	
+	}
 
 	void SetVisible(bool isVisiable) 
 	{ 
