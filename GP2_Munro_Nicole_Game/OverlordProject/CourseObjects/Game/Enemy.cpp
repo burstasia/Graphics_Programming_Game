@@ -23,7 +23,7 @@
 
 Enemy::Enemy(XMFLOAT3 midPoint, float width, float height) :
 	m_IsAlive(true),
-	m_Speed(0.5f),
+	m_Speed(0.25f),
 	m_GoalX(0.0f),
 	m_GoalZ(0.0f),
 	m_Goal(0.0f, 0.0f, 0.0f),
@@ -37,7 +37,11 @@ Enemy::Enemy(XMFLOAT3 midPoint, float width, float height) :
 	m_Velocity(0.0f, 0.0f, 0.0f),
 	m_Lives(3),
 	m_LastState(EnemyState::WALKING),
-	m_CurrState(EnemyState::WALKING)
+	m_CurrState(EnemyState::WALKING),
+	m_HurtTimer(1.0f),
+	m_CurrHurtTimer(0.0f),
+	m_DyingTimer(2.5f),
+	m_CurrDyingTimer(0.0f)
 {
 }
 
@@ -94,9 +98,48 @@ void Enemy::Update(const GameContext & gameContext)
 	{
 		m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->Play();
 
-		if (m_CurrState = EnemyState::WALKING)EnemyMovement(gameContext.pGameTime->GetElapsed());
-		else if(m_CurrState = EnemyState::FOLLOWING)FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
+		if (m_CurrState == EnemyState::WALKING)EnemyMovement(gameContext.pGameTime->GetElapsed());
+		if(m_CurrState == EnemyState::FOLLOWING)FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
+		if (m_CurrState == EnemyState::DYING)
+		{
+			m_CurrDyingTimer += gameContext.pGameTime->GetElapsed();
+			if (m_CurrDyingTimer >= m_DyingTimer)
+			{
+				m_CurrDyingTimer = 0.0f;
+				m_IsAlive = false;
+			}
+		}
+		if (m_CurrState == EnemyState::HURT)
+		{
+			m_CurrHurtTimer += gameContext.pGameTime->GetElapsed();
+			if (m_CurrHurtTimer >= m_HurtTimer)
+			{
+				m_CurrHurtTimer = 0.0f;
+				m_CurrState = EnemyState::WALKING;
+			}
+		}
 
+		if (m_CurrState != m_LastState)
+		{
+			switch (m_CurrState)
+			{	
+			case 0:
+				m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
+				break;
+
+			case 1:
+				m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(1);
+				break;
+
+			case 2:
+				m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(2);
+				break;
+
+			case 3:
+				m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(3);
+				break;
+			}
+		}
 		//Rotate with velocity
 		float angle = (atan2(m_Velocity.x, m_Velocity.z) * 180 / XM_PI) + 180.f;
 		GetTransform()->Rotate(0.0f, angle, 0.0f);
@@ -146,8 +189,12 @@ void Enemy::SetIsFollowing(bool isFollowing)
 
 void Enemy::ResetEnemy()
 {
+	m_CurrState = EnemyState::WALKING;
+	m_LastState = EnemyState::WALKING;
+	m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
 	m_IsAlive = true;
 	m_Lives = 3;
+	m_Speed = 0.5f;
 	GetTransform()->Translate(0.0f, 0.0f, 0.0f);
 }
 
@@ -155,7 +202,14 @@ bool Enemy::SetIsHit()
 {
 	--m_Lives;
 
-	if (m_Lives <= 0) return true;
+	m_CurrState = EnemyState::HURT;
+	m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(2);
+	if (m_Lives <= 0)
+	{
+		m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(3);
+		m_CurrState = EnemyState::DYING;
+		return true;
+	}
 	else return false;
 }
 

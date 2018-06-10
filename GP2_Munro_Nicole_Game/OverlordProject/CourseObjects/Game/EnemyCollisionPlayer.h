@@ -3,6 +3,7 @@
 #include "Enemy.h"
 
 class Character;
+class Enemy;
 
 class EnemyCollisionPlayer final : public GameObject
 {
@@ -22,6 +23,7 @@ public:
 	{ 
 		auto parent = static_cast<Enemy*>(GetParent());
 		parent->SetIsFollowing(isFollowing);
+		
 	}
 
 	void SetCharacterReference(Character* character) 

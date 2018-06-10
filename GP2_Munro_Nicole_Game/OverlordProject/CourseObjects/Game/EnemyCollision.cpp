@@ -50,7 +50,7 @@ void EnemyCollision::Kill()
 
 	if (parent->SetIsHit())
 	{
-		parent->SetIsAlive(false);
+		//parent->SetIsAlive(false);
 
 		auto scene = dynamic_cast<Platformer*>(GetScene());
 

@@ -26,6 +26,11 @@ public:
 	const bool GetIsFollowing() const { return m_IsFollowing; }
 	void SetIsFollowing(bool isFollowing);
 
+	void SetState(EnemyState newState) 
+	{ 
+		m_CurrState = newState; 
+	}
+
 	void SetCharacterReference(Character* character) { m_pCharacter = character; }
 
 	void SetIsAlive(bool alive) { m_IsAlive = alive; }
@@ -69,6 +74,12 @@ private:
 
 	EnemyState m_LastState;
 	EnemyState m_CurrState;
+
+	float m_HurtTimer;
+	float m_CurrHurtTimer;
+
+	float m_DyingTimer;
+	float m_CurrDyingTimer;
 
 	void EnemyMovement(float elapsedSec);
 	void FollowPlayerMovement(float elapsedSec);
