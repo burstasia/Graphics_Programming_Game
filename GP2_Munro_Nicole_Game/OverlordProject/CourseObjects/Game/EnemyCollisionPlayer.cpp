@@ -6,6 +6,7 @@
 #include "Scenegraph/GameObject.h"
 #include "Level.h"
 #include "Platformer.h"
+#include "MainCharacter.h"
 
 EnemyCollisionPlayer::EnemyCollisionPlayer()
 {
@@ -45,14 +46,21 @@ void EnemyCollisionPlayer::Update(const GameContext & gameContext)
 
 void EnemyCollisionPlayer::SetCharacterReference(Character * character)
 {
-	auto parent = static_cast<Enemy*>(GetParent());
-	parent->SetCharacterReference(character);
-
 	auto scene = dynamic_cast<Platformer*>(GetScene());
 
-	auto level = dynamic_cast<Level*>(scene->GetLevel());
+	if (!scene->GetMainCharacter()->GetStunned())
+	{
+		auto parent = static_cast<Enemy*>(GetParent());
+		parent->SetCharacterReference(character);
 
-	scene->RemoveLifePlayer();
-	level->RemoveLifePlayer();
+
+
+		auto level = dynamic_cast<Level*>(scene->GetLevel());
+
+		scene->RemoveLifePlayer();
+		level->RemoveLifePlayer();
+
+		scene->GetMainCharacter()->SetStunned();
+	}
 	
 }

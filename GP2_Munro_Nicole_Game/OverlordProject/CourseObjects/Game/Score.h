@@ -28,6 +28,6 @@ private:
 	
 	int m_NumDiamonds = 0;
 	int m_Score = 0;
-	int m_Lives = 3;
+	int m_Lives = 10;
 };
 

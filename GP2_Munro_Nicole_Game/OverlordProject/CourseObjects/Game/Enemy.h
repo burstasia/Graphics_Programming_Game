@@ -64,7 +64,7 @@ private:
 
 	ControllerComponent* m_pController;
 
-	Character* m_pCharacter;
+	Character* m_pCharacter = nullptr;
 
 	XMFLOAT3 m_Velocity;
 

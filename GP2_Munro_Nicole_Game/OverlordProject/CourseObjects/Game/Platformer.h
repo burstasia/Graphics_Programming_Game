@@ -19,6 +19,8 @@ public:
 
 	void RemoveLifePlayer();
 
+	MainCharacter* GetMainCharacter() { return m_pMainCharacter; }
+
 protected:
 	virtual void Initialize(const GameContext& gameContext);
 	virtual void Update(const GameContext& gameContext);

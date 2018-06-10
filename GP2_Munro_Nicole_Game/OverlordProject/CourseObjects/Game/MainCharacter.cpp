@@ -9,11 +9,13 @@
 
 MainCharacter::MainCharacter(Character * chara):
 	m_pCharacter(chara),
-	m_State(State::idle),
-	m_StateLastFrame(State::idle),
+	m_State(MainCharacterState::idle),
+	m_StateLastFrame(MainCharacterState::idle),
 	m_CanShootFireball(true),
 	m_CooldownCurr(0.0f),
-	m_CooldownTotal(1.0f)
+	m_CooldownTotal(1.0f),
+	m_StunnedTimer(1.0f),
+	m_CurrStunnedTime(0.0f)
 {
 }
 
@@ -72,68 +74,114 @@ void MainCharacter::Update(const GameContext & gameContext)
 	//Update self with these
 	m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->Play();
 
-	if (m_pCharacter->GetState() == Character::State::flying)
+	if (m_State == MainCharacterState::stunned)
 	{
-		if (m_State != State::fireball)m_State = State::flying;
+		
+		m_CurrStunnedTime += gameContext.pGameTime->GetElapsed();
 
-		auto velocity = m_pCharacter->GetVelocity();
+		if (m_CurrStunnedTime >= m_StunnedTimer)
+		{
+			m_CurrStunnedTime = 0.0f;
+			m_State = MainCharacterState::idle;
+			return;
+		}
 
-		GetTransform()->Translate(m_pCharacter->GetTransform()->GetPosition().x, m_pCharacter->GetTransform()->GetPosition().y - 5.0f, m_pCharacter->GetTransform()->GetPosition().z);
+		if (m_pCharacter->GetState() == Character::State::flying)
+		{
+			if (m_State != MainCharacterState::fireball)m_State = MainCharacterState::stunned;
+
+			auto velocity = m_pCharacter->GetVelocity();
+
+			GetTransform()->Translate(m_pCharacter->GetTransform()->GetPosition().x, m_pCharacter->GetTransform()->GetPosition().y - 5.0f, m_pCharacter->GetTransform()->GetPosition().z);
 
 
-		XMVECTOR tempVel = XMLoadFloat3(&velocity);
+			XMVECTOR tempVel = XMLoadFloat3(&velocity);
 
-		tempVel = XMVector3Normalize(tempVel);
+			tempVel = XMVector3Normalize(tempVel);
 
-		XMStoreFloat3(&velocity, tempVel);
+			XMStoreFloat3(&velocity, tempVel);
 
-		float angle = (atan2(velocity.x, velocity.z) * 180 / XM_PI) + 180.f;
+			float angle = (atan2(velocity.x, velocity.z) * 180 / XM_PI) + 180.f;
 
-		GetTransform()->Rotate(0.0f, angle - 180, 0.0f);
+			GetTransform()->Rotate(0.0f, angle - 180, 0.0f);
 
-		//m_pParticleEmitter->GetTransform()->Translate(GetTransform()->GetWorldPosition());
+			//m_pParticleEmitter->GetTransform()->Translate(GetTransform()->GetWorldPosition());
+		}
+		else
+		{
+			if (m_State != MainCharacterState::fireball)m_State = MainCharacterState::stunned;
+
+		}
 	}
+
 	else
 	{
-		if(m_State != State::fireball)m_State = State::idle;
-		
-	}
-
-	if (gameContext.pInput->IsActionTriggered(50))
-	{
-		//spawn fireball
-
-		auto scene = static_cast<Platformer*>(GetScene());
-
-		if (scene)
+		if (m_pCharacter->GetState() == Character::State::flying)
 		{
-			auto level = static_cast<Level*>(scene->GetLevel());
+			if (m_State != MainCharacterState::fireball)m_State = MainCharacterState::flying;
 
-			if (level)
+			auto velocity = m_pCharacter->GetVelocity();
+
+			GetTransform()->Translate(m_pCharacter->GetTransform()->GetPosition().x, m_pCharacter->GetTransform()->GetPosition().y - 5.0f, m_pCharacter->GetTransform()->GetPosition().z);
+
+
+			XMVECTOR tempVel = XMLoadFloat3(&velocity);
+
+			tempVel = XMVector3Normalize(tempVel);
+
+			XMStoreFloat3(&velocity, tempVel);
+
+			float angle = (atan2(velocity.x, velocity.z) * 180 / XM_PI) + 180.f;
+
+			GetTransform()->Rotate(0.0f, angle - 180, 0.0f);
+
+			//m_pParticleEmitter->GetTransform()->Translate(GetTransform()->GetWorldPosition());
+		}
+		else
+		{
+			if (m_State != MainCharacterState::fireball)m_State = MainCharacterState::idle;
+
+		}
+
+		if (gameContext.pInput->IsActionTriggered(50))
+		{
+			//spawn fireball
+
+			auto scene = static_cast<Platformer*>(GetScene());
+
+			if (scene)
 			{
-				if (m_CanShootFireball)
+				auto level = static_cast<Level*>(scene->GetLevel());
+
+				if (level)
 				{
-					level->SpawnFireball(GetTransform()->GetPosition(), GetTransform()->GetForward());
-					m_CanShootFireball = false;
-					m_State = State::fireball;
+					if (m_CanShootFireball)
+					{
+						level->SpawnFireball(GetTransform()->GetPosition(), GetTransform()->GetForward());
+						m_CanShootFireball = false;
+						m_State = MainCharacterState::fireball;
+					}
 				}
 			}
 		}
-	}
 
-	if (!m_CanShootFireball)
-	{
-		m_State = State::fireball;
-
-		m_CooldownCurr += gameContext.pGameTime->GetElapsed();
-
-		if (m_CooldownCurr >= m_CooldownTotal)
+		if (!m_CanShootFireball)
 		{
-			m_CooldownCurr = 0.0f;
-			m_CanShootFireball = true;
-			m_State = State::idle;
+			m_State = MainCharacterState::fireball;
+
+			m_CooldownCurr += gameContext.pGameTime->GetElapsed();
+
+			if (m_CooldownCurr >= m_CooldownTotal)
+			{
+				m_CooldownCurr = 0.0f;
+				m_CanShootFireball = true;
+				m_State = MainCharacterState::idle;
+			}
 		}
+
 	}
+	
+	
 
 	if (m_State != m_StateLastFrame)
 	{
@@ -166,4 +214,20 @@ void MainCharacter::PostInit()
 void MainCharacter::RemoveLife()
 {
 	--m_Lives;
+}
+
+void MainCharacter::SetStunned()
+{
+	m_State = MainCharacterState::stunned;
+	m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(4);
+}
+
+bool MainCharacter::GetStunned()
+{
+	if (m_State == MainCharacterState::stunned)
+	{
+		return true;
+	}
+
+	else return false;
 }

@@ -36,7 +36,6 @@ public:
 	
 	const bool GetIsActive() const { return m_IsActive; }
 	void SetIsActive(bool isActive) { m_IsActive = isActive; }
-
 	TransformComponent* GetTransform() const { return m_pTransform; }
 
 	GameScene* GetScene();

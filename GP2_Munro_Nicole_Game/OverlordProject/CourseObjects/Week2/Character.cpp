@@ -78,7 +78,7 @@ void Character::Update(const GameContext& gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
 	//Update the character (Camera rotation, Character Movement, Character Gravity)
-	if (m_pCamera->IsActive())
+	if (m_pCamera->IsActive() && m_IsRecivingInput)
 	{
 		XMFLOAT3 move = XMFLOAT3(0, 0, 0);
 		move.z = gameContext.pInput->IsActionTriggered(FORWARD) ? 1.0f : 0.0f;

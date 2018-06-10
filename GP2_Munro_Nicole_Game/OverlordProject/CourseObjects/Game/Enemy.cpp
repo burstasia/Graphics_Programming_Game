@@ -235,7 +235,7 @@ void Enemy::FollowPlayerMovement(float elapsedSec)
 {
 	m_Speed = 0.5f;
 
-	if (m_pCharacter)
+	if (m_pCharacter != nullptr)
 	{
 		m_Goal = m_pCharacter->GetTransform()->GetPosition();
 	}

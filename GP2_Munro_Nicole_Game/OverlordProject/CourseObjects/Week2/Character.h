@@ -33,6 +33,8 @@ public:
 	XMFLOAT3 GetVelocity() { return m_Velocity; }
 
 	State GetState() { return m_State; }
+
+	void SetInput(bool input) { m_IsRecivingInput = input; }
 protected:
 
 	CameraComponent* m_pCamera;
@@ -57,6 +59,7 @@ protected:
 
 	State m_State;
 
+	bool m_IsRecivingInput = true;
 private:
 	// -------------------------
 	// Disabling default copy constructor and default 

@@ -9,7 +9,7 @@ class MainCharacter final : public GameObject
 {
 public:
 
-	enum State
+	enum MainCharacterState
 	{
 		idle,
 		flying,
@@ -27,12 +27,16 @@ public:
 
 	void RemoveLife();
 
+	void SetStunned();
+	bool GetStunned();
+
+
 private:
 
 	Character * m_pCharacter;
 	
-	State m_State;
-	State m_StateLastFrame;
+	MainCharacterState m_State;
+	MainCharacterState m_StateLastFrame;
 
 	bool m_CanShootFireball;
 	float m_CooldownTotal;
@@ -42,7 +46,9 @@ private:
 
 	ParticleEmitterComponent* m_pParticleEmitter = nullptr;
 
-	int m_Lives = 3;
+	int m_Lives = 10;
 
+	float m_StunnedTimer;
+	float m_CurrStunnedTime;
 };
 
