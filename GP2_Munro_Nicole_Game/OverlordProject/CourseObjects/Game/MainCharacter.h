@@ -3,6 +3,7 @@
 
 class Character;
 class ModelComponent;
+class ParticleEmitterComponent;
 
 class MainCharacter final : public GameObject
 {
@@ -35,5 +36,7 @@ private:
 	float m_CooldownCurr;
 
 	GameObject * m_pModelObject;
+
+	ParticleEmitterComponent* m_pParticleEmitter = nullptr;
 };
 

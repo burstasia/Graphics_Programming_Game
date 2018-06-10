@@ -21,6 +21,8 @@ public:
 
 	void ResetLevel();
 
+	void PostInit();
+
 private:
 	friend class Enemy;
 

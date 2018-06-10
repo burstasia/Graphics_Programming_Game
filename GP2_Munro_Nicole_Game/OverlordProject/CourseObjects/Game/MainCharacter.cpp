@@ -48,6 +48,20 @@ void MainCharacter::Initialize(const GameContext & gameContext)
 	gameContext.pInput->AddInputAction(InputAction(50, Down, 'E'));
 
 	GetTransform()->Translate(-6.0f, 5.0f, -50.0f);
+
+	//DUST PARTICLE
+	m_pParticleEmitter = new ParticleEmitterComponent(L"./Resources/Textures/dust_cloud.png", 20);
+	m_pParticleEmitter->SetVelocity(XMFLOAT3(0, 0.3f, 0));
+	m_pParticleEmitter->SetMinSize(1.0f);
+	m_pParticleEmitter->SetMaxSize(3.0f);
+	m_pParticleEmitter->SetMinEnergy(1.0f);
+	m_pParticleEmitter->SetMaxEnergy(2.0f);
+	m_pParticleEmitter->SetMinSizeGrow(3.5f);
+	m_pParticleEmitter->SetMaxSizeGrow(6.5f);
+	m_pParticleEmitter->SetMinEmitterRange(0.2f);
+	m_pParticleEmitter->SetMaxEmitterRange(0.5f);
+	m_pParticleEmitter->SetColor(XMFLOAT4(229.0f/255.0f, 184.0f/255.0f, 136.f/255.0f, 0.6f));
+	AddComponent(m_pParticleEmitter);
 }
 
 void MainCharacter::Update(const GameContext & gameContext)
@@ -76,6 +90,8 @@ void MainCharacter::Update(const GameContext & gameContext)
 		float angle = (atan2(velocity.x, velocity.z) * 180 / XM_PI) + 180.f;
 
 		GetTransform()->Rotate(0.0f, angle - 180, 0.0f);
+
+		//m_pParticleEmitter->GetTransform()->Translate(GetTransform()->GetWorldPosition());
 	}
 	else
 	{

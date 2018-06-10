@@ -11,6 +11,7 @@
 #include "../Week2/Character.h"
 
 #include "Scenegraph/GameScene.h"
+#include "Graphics\ModelAnimator.h"
 
 #include "Materials/DiffuseMaterial.h"
 #include "EnemyCollision.h"
@@ -19,12 +20,13 @@
 #include "Platformer.h"
 #include "Level.h"
 
-Enemy::Enemy(XMFLOAT3 midPoint, float width, float height):
+
+Enemy::Enemy(XMFLOAT3 midPoint, float width, float height) :
 	m_IsAlive(true),
-	m_Speed(0.1f),
+	m_Speed(0.5f),
 	m_GoalX(0.0f),
 	m_GoalZ(0.0f),
-	m_Goal(0.0f,0.0f,0.0f),
+	m_Goal(0.0f, 0.0f, 0.0f),
 	m_IsFollowing(false),
 	m_GoalSet(false),
 	m_TotalFollowTime(2.0f),
@@ -32,8 +34,10 @@ Enemy::Enemy(XMFLOAT3 midPoint, float width, float height):
 	m_Midpoint(midPoint),
 	m_Width(width),
 	m_Height(height),
-	m_Velocity(0.0f,0.0f,0.0f),
-	m_Lives(3)
+	m_Velocity(0.0f, 0.0f, 0.0f),
+	m_Lives(3),
+	m_LastState(EnemyState::WALKING),
+	m_CurrState(EnemyState::WALKING)
 {
 }
 
@@ -54,17 +58,16 @@ void Enemy::Initialize(const GameContext & gameContext)
 	//MODEL//
 	m_pEnemyModel = new GameObject();
 
-	auto enemyModel = new ModelComponent(L"Resources/Meshes/Knight.ovm");
+	m_pModel = new ModelComponent(L"Resources/Meshes/packed_toad.ovm");
 
-	m_pEnemyModel->AddComponent(enemyModel);
+	m_pEnemyModel->AddComponent(m_pModel);
 
 	AddChild(m_pEnemyModel);
 
-	enemyModel->GetTransform()->Scale(0.03f, 0.03f, 0.03f);
+	m_pModel->GetTransform()->Scale(0.2f, 0.2f, 0.2f);
 
-	
-	
-	enemyModel->SetMaterial(1);
+
+	m_pModel->SetMaterial(1);
 
 	//FIREBALL COLLISION//
 	auto enemyCollision = new EnemyCollision();
@@ -79,14 +82,20 @@ void Enemy::Initialize(const GameContext & gameContext)
 	GetMinMax();
 
 	GetTransform()->Translate(m_Midpoint.x, m_Midpoint.y + 20.0f, m_Midpoint.z);
+
+	
 }
 
 void Enemy::Update(const GameContext & gameContext)
 {
+	m_LastState = m_CurrState;
+
 	if (m_IsAlive)
 	{
-		if (!m_IsFollowing)EnemyMovement(gameContext.pGameTime->GetElapsed());
-		else FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
+		m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->Play();
+
+		if (m_CurrState = EnemyState::WALKING)EnemyMovement(gameContext.pGameTime->GetElapsed());
+		else if(m_CurrState = EnemyState::FOLLOWING)FollowPlayerMovement(gameContext.pGameTime->GetElapsed());
 
 		//Rotate with velocity
 		float angle = (atan2(m_Velocity.x, m_Velocity.z) * 180 / XM_PI) + 180.f;
@@ -95,6 +104,8 @@ void Enemy::Update(const GameContext & gameContext)
 		//Rotate and translate child
 		m_pEnemyModel->GetTransform()->Translate(GetParent()->GetTransform()->GetPosition().x, GetParent()->GetTransform()->GetPosition().y - 5.0f, GetParent()->GetTransform()->GetPosition().z);
 		m_pEnemyModel->GetTransform()->Rotate(GetParent()->GetTransform()->GetRotation().x, GetParent()->GetTransform()->GetRotation().y, GetParent()->GetTransform()->GetRotation().z);
+
+
 	}
 	else
 	{
@@ -112,6 +123,25 @@ void Enemy::PostInit()
 	auto enemyCollision = new EnemyCollisionPlayer();
 	enemyCollision->SetOnTriggerCallBack(level->EnemyTrigger);
 	AddChild(enemyCollision);
+
+	m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
+}
+
+void Enemy::SetIsFollowing(bool isFollowing)
+{
+	
+	m_IsFollowing = isFollowing;
+
+	if (isFollowing)
+	{
+		m_CurrState = EnemyState::FOLLOWING;
+		m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(1);
+	}
+	else
+	{
+		m_CurrState = EnemyState::WALKING;
+		m_pEnemyModel->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(0);
+	}
 }
 
 void Enemy::ResetEnemy()
@@ -160,14 +190,14 @@ void Enemy::FollowPlayerMovement(float elapsedSec)
 
 	if (m_CurrFollowTime >= m_TotalFollowTime)
 	{
-		m_IsFollowing = false;
+		SetIsFollowing(false);
 		m_CurrFollowTime = 0.0f;
 		m_Speed = 0.1f;
 	}
 	if (GetDistance(m_pController->GetTransform()->GetPosition(), m_Goal) <= 5.0f)
 	{
 		//Attack I guess
-		m_IsFollowing = false;
+		SetIsFollowing(false);
 		m_CurrFollowTime = 0.0f;
 		m_Speed = 0.1f;
 	}

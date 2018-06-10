@@ -25,10 +25,7 @@ public:
 	{ 
 		switch (m_Pos)
 		{
-		case 4:
-			m_MenuState = MenuState::RESUME;
-			break;
-
+	
 		case 5:
 			m_MenuState = MenuState::RESTART;
 			break;

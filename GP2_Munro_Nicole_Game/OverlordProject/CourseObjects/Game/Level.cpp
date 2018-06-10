@@ -101,6 +101,14 @@ void Level::ResetLevel()
 
 }
 
+void Level::PostInit()
+{
+	for (auto enemy : m_pEnemyVec)
+	{
+		enemy->PostInit();
+	}
+}
+
 void Level::InitLevel(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);
@@ -210,7 +218,7 @@ void Level::InitItems(const GameContext & gameContext)
 		auto enemy = new Enemy({ 0.0f, 0.0f, 70.0f }, 300.0f, 80.0f);
 		enemy->SetOnTriggerCallBack(EnemyTrigger);
 		AddChild(enemy);
-		enemy->PostInit();
+		//enemy->PostInit();
 
 		m_pEnemyVec.push_back(enemy);
 	}

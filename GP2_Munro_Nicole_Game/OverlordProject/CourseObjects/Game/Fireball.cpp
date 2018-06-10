@@ -40,6 +40,21 @@ void Fireball::Initialize(const GameContext & gameContext)
 	AddComponent(collider);
 
 	GetTransform()->Translate(m_StartPos.x, m_StartPos.y + 5.0f, m_StartPos.z);
+
+	//PARTICLE
+	m_pParticleEmitter = new ParticleEmitterComponent(L"./Resources/Textures/fireball_stylized.png", 20);
+	m_pParticleEmitter->SetVelocity(XMFLOAT3(0, 0.01f, 0));
+	m_pParticleEmitter->SetMinSize(0.1f);
+	m_pParticleEmitter->SetMaxSize(0.8f);
+	m_pParticleEmitter->SetMinEnergy(0.2f);
+	m_pParticleEmitter->SetMaxEnergy(0.8f);
+	m_pParticleEmitter->SetMinSizeGrow(2.0f);
+	m_pParticleEmitter->SetMaxSizeGrow(3.0f);
+	m_pParticleEmitter->SetMinEmitterRange(0.2f);
+	m_pParticleEmitter->SetMaxEmitterRange(0.5f);
+	m_pParticleEmitter->SetColor(XMFLOAT4(1.f, 1.f, 1.f, 0.6f));
+	AddComponent(m_pParticleEmitter);
+
 }
 
 void Fireball::Update(const GameContext & gameContext)
@@ -57,7 +72,11 @@ void Fireball::Update(const GameContext & gameContext)
 		{
 			m_pLevel->DeleteFireball(this);
 		}
-		else GetTransform()->Translate(pos);
+		else
+		{
+			GetTransform()->Translate(pos);
+			//m_pParticleEmitter->GetTransform()->Translate(pos);
+		}
 	}
 	else
 	{

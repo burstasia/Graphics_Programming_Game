@@ -2,7 +2,7 @@
 #include "Scenegraph/GameObject.h"
 
 class Level;
-
+class ParticleEmitterComponent;
 
 class Fireball final : public GameObject
 {
@@ -28,5 +28,7 @@ private:
 	bool m_IsAlive;
 
 	Level* m_pLevel;
+
+	ParticleEmitterComponent* m_pParticleEmitter = nullptr;
 };
 

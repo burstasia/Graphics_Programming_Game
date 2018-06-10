@@ -3,19 +3,28 @@
 
 class Character;
 class ControllerComponent;
+class ModelComponent;
 
 class Enemy final: public GameObject
 {
 public:
+
+	enum EnemyState
+	{
+		WALKING,
+		FOLLOWING,
+		HURT,
+		DYING
+	};
 	Enemy(XMFLOAT3 midPoint, float width, float height);
 	~Enemy();
 
-	void Initialize(const GameContext & gameContext);
-	void Update(const GameContext & gameContext);
+	virtual void Initialize(const GameContext & gameContext);
+	virtual void Update(const GameContext & gameContext);
 	void PostInit();
 
 	const bool GetIsFollowing() const { return m_IsFollowing; }
-	void SetIsFollowing(bool isFollowing) { m_IsFollowing = isFollowing; }
+	void SetIsFollowing(bool isFollowing);
 
 	void SetCharacterReference(Character* character) { m_pCharacter = character; }
 
@@ -55,6 +64,11 @@ private:
 	XMFLOAT3 m_Velocity;
 
 	GameObject* m_pEnemyModel;
+
+	ModelComponent * m_pModel;
+
+	EnemyState m_LastState;
+	EnemyState m_CurrState;
 
 	void EnemyMovement(float elapsedSec);
 	void FollowPlayerMovement(float elapsedSec);

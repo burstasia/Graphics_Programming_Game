@@ -6,9 +6,9 @@
 PauseScreen::PauseScreen():
 	m_IsActive(false),
 	m_MoveDistance(86.0f),
-	m_MaxHeight(609.0f),
-	m_MinHeight(351.0f),
-	m_CurrPos(351.0f),
+	m_MaxHeight(546.0f),
+	m_MinHeight(374.0f),
+	m_CurrPos(374.0f),
 	m_MenuState(MenuState::MAIN_MENU)
 {
 }
@@ -23,7 +23,7 @@ void PauseScreen::Initialize(const GameContext & gameContext)
 	m_pIndicator = new SpriteComponent(L"./Resources/Textures/indicator.png");
 	AddComponent(m_pIndicator);
 
-	m_pPause = new SpriteComponent(L"./Resources/Textures/PauseScreen.png");
+	m_pPause = new SpriteComponent(L"./Resources/Textures/DeathScreen.png");
 	AddComponent(m_pPause);
 
 	

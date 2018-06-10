@@ -19,6 +19,7 @@
 #include "PauseScreen.h"
 #include "MainMenu.h"
 #include "GameOverScreen.h"
+#include "Materials/SkinnedDiffuseMaterial.h"
 
 Platformer::Platformer():
 	GameScene(L"SpyroScene"),
@@ -42,14 +43,16 @@ void Platformer::Initialize(const GameContext & gameContext)
 	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterial, UINT(10));
 
 	//MATERIAL//
-	auto pDiffuseMaterialEnemy = new DiffuseMaterial();
-	pDiffuseMaterialEnemy->SetDiffuseTexture(L"Resources/Textures/Knight.jpg");
+	auto pDiffuseMaterialEnemy = new SkinnedDiffuseMaterial();
+	pDiffuseMaterialEnemy->SetDiffuseTexture(L"Resources/Textures/toadder_uv_tex.png");
 	gameContext.pMaterialManager->AddMaterial(pDiffuseMaterialEnemy, UINT(1));
 
 	//GROUND
 	m_Level = new Level();
 	AddChild(m_Level);
 	
+	m_Level->PostInit();
+
 	//CHARACTER
 	m_Character = new Character();
 	AddChild(m_Character);
@@ -162,10 +165,6 @@ void Platformer::Update(const GameContext & gameContext)
 			case 0:
 				//play
 				ResetLevel(gameContext);
-
-				/*m_MainGameState = MainGameState::PLAYING;
-				m_pMainMenu->SetVisible(false);
-				gameContext.pGameTime->Start();*/
 				break;
 
 			case 1:

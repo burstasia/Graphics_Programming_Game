@@ -9,3 +9,4 @@
 #include "ControllerComponent.h"
 #include "ModelComponent.h"
 #include "SpriteComponent.h"
+#include "ParticleEmitterComponent.h"
