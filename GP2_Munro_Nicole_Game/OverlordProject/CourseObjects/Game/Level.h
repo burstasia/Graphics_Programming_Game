@@ -24,6 +24,8 @@ public:
 
 	void PostInit();
 
+	void RemoveLifePlayer();
+
 private:
 	friend class Enemy;
 

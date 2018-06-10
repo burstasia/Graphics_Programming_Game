@@ -26,10 +26,7 @@ public:
 		
 	}
 
-	void SetCharacterReference(Character* character) 
-	{ 
-		auto parent = static_cast<Enemy*>(GetParent());
-		parent->SetCharacterReference(character); 
-	}
+	void SetCharacterReference(Character* character);
+	
 };
 

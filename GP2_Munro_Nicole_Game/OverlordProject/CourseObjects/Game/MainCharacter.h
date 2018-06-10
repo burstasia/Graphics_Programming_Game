@@ -24,6 +24,9 @@ public:
 	void Update(const GameContext & gameContext);
 
 	void PostInit();
+
+	void RemoveLife();
+
 private:
 
 	Character * m_pCharacter;
@@ -38,5 +41,8 @@ private:
 	GameObject * m_pModelObject;
 
 	ParticleEmitterComponent* m_pParticleEmitter = nullptr;
+
+	int m_Lives = 3;
+
 };
 

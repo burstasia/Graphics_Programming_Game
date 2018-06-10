@@ -17,6 +17,8 @@ public:
 
 	Level* GetLevel() { return m_Level; }
 
+	void RemoveLifePlayer();
+
 protected:
 	virtual void Initialize(const GameContext& gameContext);
 	virtual void Update(const GameContext& gameContext);

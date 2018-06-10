@@ -34,6 +34,11 @@ Platformer::~Platformer()
 }
 
 
+void Platformer::RemoveLifePlayer()
+{
+	m_pMainCharacter->RemoveLife();
+}
+
 void Platformer::Initialize(const GameContext & gameContext)
 {
 	GetPhysxProxy()->EnablePhysxDebugRendering(true);

@@ -4,6 +4,8 @@
 #include "Components/Components.h"
 #include "Physx/PhysxManager.h"
 #include "Scenegraph/GameObject.h"
+#include "Level.h"
+#include "Platformer.h"
 
 EnemyCollisionPlayer::EnemyCollisionPlayer()
 {
@@ -39,4 +41,18 @@ void EnemyCollisionPlayer::Update(const GameContext & gameContext)
 {
 	GetTransform()->Translate(GetParent()->GetTransform()->GetPosition());
 	GetTransform()->Rotate(GetParent()->GetTransform()->GetRotation().x, GetParent()->GetTransform()->GetRotation().y, GetParent()->GetTransform()->GetRotation().z);
+}
+
+void EnemyCollisionPlayer::SetCharacterReference(Character * character)
+{
+	auto parent = static_cast<Enemy*>(GetParent());
+	parent->SetCharacterReference(character);
+
+	auto scene = dynamic_cast<Platformer*>(GetScene());
+
+	auto level = dynamic_cast<Level*>(scene->GetLevel());
+
+	scene->RemoveLifePlayer();
+	level->RemoveLifePlayer();
+	
 }

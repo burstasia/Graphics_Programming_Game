@@ -162,3 +162,8 @@ void MainCharacter::PostInit()
 {
 	m_pModelObject->GetComponent<ModelComponent>()->GetAnimator()->SetAnimation(1);
 }
+
+void MainCharacter::RemoveLife()
+{
+	--m_Lives;
+}

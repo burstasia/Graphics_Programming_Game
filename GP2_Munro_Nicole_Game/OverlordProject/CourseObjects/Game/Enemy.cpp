@@ -19,6 +19,7 @@
 #include "Fireball.h"
 #include "Platformer.h"
 #include "Level.h"
+#include "MainCharacter.h"
 
 
 Enemy::Enemy(XMFLOAT3 midPoint, float width, float height) :
@@ -322,6 +323,8 @@ void Enemy::FireballTrigger(GameObject * triggerobject, GameObject * otherobject
 	{
 		enemy->Kill();
 		fireball->SetIsAlive(false);
-
+		return;
 	}
+
+
 }
