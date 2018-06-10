@@ -47,7 +47,7 @@ void Platformer::SetDead()
 
 void Platformer::Initialize(const GameContext & gameContext)
 {
-	GetPhysxProxy()->EnablePhysxDebugRendering(true);
+	//GetPhysxProxy()->EnablePhysxDebugRendering(true);
 
 	//MAIN MATERIAL
 	auto pDiffuseMaterial = new DiffuseMaterial();
