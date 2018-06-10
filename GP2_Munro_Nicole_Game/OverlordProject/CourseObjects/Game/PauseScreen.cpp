@@ -6,9 +6,9 @@
 PauseScreen::PauseScreen():
 	m_IsActive(false),
 	m_MoveDistance(86.0f),
-	m_MaxHeight(546.0f),
-	m_MinHeight(374.0f),
-	m_CurrPos(374.0f),
+	m_MaxHeight(614.0f),
+	m_MinHeight(356.0f),
+	m_CurrPos(356.0f),
 	m_MenuState(MenuState::MAIN_MENU)
 {
 }

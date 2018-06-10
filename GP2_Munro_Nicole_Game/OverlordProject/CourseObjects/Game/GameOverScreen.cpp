@@ -5,9 +5,9 @@
 GameOverScreen::GameOverScreen():
 	m_IsActive(false),
 	m_MoveDistance(86.0f),
-	m_MaxHeight(609.0f),
-	m_MinHeight(437.0f),
-	m_CurrPos(437.0f),
+	m_MaxHeight(549.0f),
+	m_MinHeight(377.0f),
+	m_CurrPos(377.0f),
 	m_MenuState(PauseState::RESTART)
 {
 }

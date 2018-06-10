@@ -224,6 +224,11 @@ void MainCharacter::RemoveLife()
 	}
 }
 
+void MainCharacter::SetLife(int life)
+{
+	m_Lives = life;
+}
+
 void MainCharacter::SetStunned()
 {
 	m_State = MainCharacterState::stunned;

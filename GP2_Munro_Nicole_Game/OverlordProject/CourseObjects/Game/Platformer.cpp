@@ -202,6 +202,7 @@ void Platformer::ResetLevel(const GameContext& gameContext)
 
 	m_Character->GetTransform()->Translate(-6.0f,5.0f,-50.0f);
 	m_pMainCharacter->GetTransform()->Translate(-6.0f, 5.0f, -50.0f);
+	m_pMainCharacter->SetLife(10);
 
 	m_MainGameState = MainGameState::PLAYING;
 

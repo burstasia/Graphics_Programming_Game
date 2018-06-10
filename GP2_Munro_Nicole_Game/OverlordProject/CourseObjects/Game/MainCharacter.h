@@ -26,6 +26,7 @@ public:
 	void PostInit();
 
 	void RemoveLife();
+	void SetLife(int life);
 
 	void SetStunned();
 	bool GetStunned();

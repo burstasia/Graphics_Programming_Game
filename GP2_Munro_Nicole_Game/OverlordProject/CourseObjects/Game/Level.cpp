@@ -100,6 +100,8 @@ void Level::ResetLevel()
 	}
 
 	m_pScore->SetScoreDiamonds(0);
+	m_pScore->SetScore(0);
+	m_pScore->SetLives(10);
 
 }
 
