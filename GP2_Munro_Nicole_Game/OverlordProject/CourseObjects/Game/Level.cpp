@@ -116,6 +116,11 @@ void Level::RemoveLifePlayer()
 	m_pScore->DecreaseLives();
 }
 
+void Level::AddPoints()
+{
+	m_pScore->IncreaseScore();
+}
+
 void Level::InitLevel(const GameContext & gameContext)
 {
 	UNREFERENCED_PARAMETER(gameContext);

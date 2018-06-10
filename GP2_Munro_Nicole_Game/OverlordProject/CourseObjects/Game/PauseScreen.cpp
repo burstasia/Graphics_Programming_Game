@@ -23,7 +23,7 @@ void PauseScreen::Initialize(const GameContext & gameContext)
 	m_pIndicator = new SpriteComponent(L"./Resources/Textures/indicator.png");
 	AddComponent(m_pIndicator);
 
-	m_pPause = new SpriteComponent(L"./Resources/Textures/DeathScreen.png");
+	m_pPause = new SpriteComponent(L"./Resources/Textures/PauseScreen.png");
 	AddComponent(m_pPause);
 
 	

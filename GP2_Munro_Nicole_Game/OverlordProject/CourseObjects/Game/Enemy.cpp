@@ -201,6 +201,16 @@ void Enemy::ResetEnemy()
 
 bool Enemy::SetIsHit()
 {
+	auto scene = dynamic_cast<Platformer*>(GetScene());
+	
+
+	if (scene)
+	{
+		auto level = dynamic_cast<Level*>(scene->GetLevel());
+
+		level->AddPoints();
+	}
+
 	--m_Lives;
 
 	m_CurrState = EnemyState::HURT;

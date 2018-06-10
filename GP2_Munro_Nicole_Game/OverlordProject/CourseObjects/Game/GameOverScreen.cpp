@@ -22,7 +22,7 @@ void GameOverScreen::Initialize(const GameContext & gameContext)
 	m_pIndicator = new SpriteComponent(L"./Resources/Textures/indicator.png");
 	AddComponent(m_pIndicator);
 
-	m_pGameOver = new SpriteComponent(L"./Resources/Textures/PauseScreen.png");
+	m_pGameOver = new SpriteComponent(L"./Resources/Textures/DeathScreen.png");
 	AddComponent(m_pGameOver);
 
 	//INPUT FOR PAUSE

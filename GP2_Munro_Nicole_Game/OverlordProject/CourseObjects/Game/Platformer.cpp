@@ -39,6 +39,12 @@ void Platformer::RemoveLifePlayer()
 	m_pMainCharacter->RemoveLife();
 }
 
+void Platformer::SetDead()
+{
+	m_MainGameState = MainGameState::GAME_OVER;
+	m_pGameOverScreen->SetVisible(true);
+}
+
 void Platformer::Initialize(const GameContext & gameContext)
 {
 	GetPhysxProxy()->EnablePhysxDebugRendering(true);

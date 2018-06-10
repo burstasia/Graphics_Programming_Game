@@ -214,6 +214,14 @@ void MainCharacter::PostInit()
 void MainCharacter::RemoveLife()
 {
 	--m_Lives;
+
+	if (m_Lives <= 0)
+	{
+		//tell scene that I'm dead
+		auto scene = dynamic_cast<Platformer*>(GetScene());
+
+		scene->SetDead();
+	}
 }
 
 void MainCharacter::SetStunned()

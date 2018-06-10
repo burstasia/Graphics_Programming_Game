@@ -21,6 +21,8 @@ public:
 
 	MainCharacter* GetMainCharacter() { return m_pMainCharacter; }
 
+	void SetDead();
+
 protected:
 	virtual void Initialize(const GameContext& gameContext);
 	virtual void Update(const GameContext& gameContext);
