@@ -19,6 +19,7 @@
 #include "PauseScreen.h"
 #include "MainMenu.h"
 #include "GameOverScreen.h"
+#include "Score.h"
 #include "Materials/SkinnedDiffuseMaterial.h"
 
 Platformer::Platformer():
@@ -75,6 +76,10 @@ void Platformer::Initialize(const GameContext & gameContext)
 	//game over
 	m_pGameOverScreen = new GameOverScreen();
 	AddChild(m_pGameOverScreen);
+
+	//HUD
+	/*m_pScore = new Score();
+	AddChild(m_pScore);*/
 
 	gameContext.pInput->AddInputAction(InputAction(11, Released, VK_TAB));
 	gameContext.pInput->AddInputAction(InputAction(32, Released, VK_RETURN));

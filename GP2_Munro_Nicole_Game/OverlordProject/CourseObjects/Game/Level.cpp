@@ -14,6 +14,7 @@
 #include "Enemy.h"
 #include "EnemyCollisionPlayer.h"
 #include "Fireball.h"
+#include "Score.h"
 
 Level::Level()
 {
@@ -50,12 +51,13 @@ void Level::SpawnFireball(XMFLOAT3 startPos, XMFLOAT3 forwardVec)
 void Level::DeleteFireball(Fireball * fireball)
 {
 	RemoveChildRuntime(fireball);
+
 }
 
 void Level::DeletePickup(Pickup * pickupToDelete)
 {
 	RemoveChildRuntime(pickupToDelete);
-
+	m_pScore->IncreaseScoreDiamonds();
 }
 
 void Level::SpawnPickup(XMFLOAT3 pos)
@@ -97,7 +99,7 @@ void Level::ResetLevel()
 		
 	}
 
-	
+	m_pScore->SetScoreDiamonds(0);
 
 }
 
@@ -222,6 +224,10 @@ void Level::InitItems(const GameContext & gameContext)
 
 		m_pEnemyVec.push_back(enemy);
 	}
+
+	m_pScore = new Score();
+	AddChild(m_pScore);
+
 }
 
 void Level::ItemTrigger(GameObject * triggerobject, GameObject * otherobject, TriggerAction action)

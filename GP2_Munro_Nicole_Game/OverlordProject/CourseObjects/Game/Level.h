@@ -4,6 +4,7 @@
 
 class Character;
 class Fireball;
+class Score;
 
 class Level final : public GameObject
 {
@@ -35,5 +36,7 @@ private:
 
 	std::vector<Enemy*> m_pEnemyVec;
 	std::vector<Pickup*> m_pPickupVec;
+
+	Score * m_pScore;
 };
 

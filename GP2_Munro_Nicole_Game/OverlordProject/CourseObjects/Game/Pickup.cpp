@@ -11,6 +11,8 @@
 #include "../Week2/Character.h"
 
 #include "Scenegraph/GameScene.h"
+#include "Platformer.h"
+#include "Level.h"
 
 
 Pickup::Pickup(XMFLOAT3 pos):
@@ -75,6 +77,11 @@ void Pickup::Update(const GameContext & gameContext)
 			{
 				SetIsActive(false);
 				m_CurrFlyingTime = 0.0f;
+
+				auto scene = dynamic_cast<Platformer*>(GetScene());
+
+				auto level = dynamic_cast<Level*>(scene->GetLevel());
+				level->DeletePickup(this);
 			}
 		}
 
@@ -136,7 +143,7 @@ bool Pickup::AddForce(float elapsedSec)
 
 	GetTransform()->Translate(pos.x + vec.x, pos.y + vec.y , pos.z + vec.z);
 
-	if (GetDistance(vec, pos) <= 60.0f)
+	if (GetDistance(vec, pos) >= 60.0f)
 	{
 		return true;
 	}

@@ -7,6 +7,7 @@ class MainCharacter;
 class PauseScreen;
 class MainMenu;
 class GameOverScreen;
+class Score;
 
 class Platformer : public GameScene
 {
@@ -29,6 +30,7 @@ private:
 	PauseScreen * m_PauseScreen;
 	MainMenu * m_pMainMenu;
 	GameOverScreen * m_pGameOverScreen;
+	//Score * m_pScore;
 
 	bool m_IsPaused;
 
