@@ -229,7 +229,7 @@ void Level::InitItems(const GameContext & gameContext)
 
 	for (size_t i = 0; i < 3; i++)
 	{
-		auto enemy = new Enemy({ 0.0f, 0.0f, 70.0f }, 300.0f, 80.0f);
+		auto enemy = new Enemy({ 0.0f, 0.0f, 70.0f }, 200.0f, 80.0f);
 		enemy->SetOnTriggerCallBack(EnemyTrigger);
 		AddChild(enemy);
 		//enemy->PostInit();

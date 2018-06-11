@@ -19,12 +19,12 @@ Score::~Score()
 
 void Score::Initialize(const GameContext & gameContext)
 {
-	m_ScoreDiamondFont = ContentManager::Load<SpriteFont>(L"./Resources/Font/font.fnt");
+	m_ScoreDiamondFont = ContentManager::Load<SpriteFont>(L"./Resources/Font/Retro_32.fnt");
 
 	auto sprite = new SpriteComponent(L"./Resources/Textures/Diamond.png");
 	AddComponent(sprite);
 
-	sprite->SetPosition({ 30.0f,0.0f });
+	sprite->SetPosition({ 50.0f,0.0f });
 	sprite->SetVisible(true);
 
 
@@ -47,7 +47,7 @@ void Score::Draw(const GameContext & gameContext)
 
 	wstringstream lives;
 	lives << m_Lives;
-	TextRenderer::GetInstance()->DrawText(m_ScoreDiamondFont, lives.str(), { 1260.0f,0.0f }, (XMFLOAT4)Colors::White);
+	TextRenderer::GetInstance()->DrawText(m_ScoreDiamondFont, lives.str(), { 1230.0f,0.0f }, (XMFLOAT4)Colors::White);
 }
 
 void Score::IncreaseScoreDiamonds()

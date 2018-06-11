@@ -34,8 +34,8 @@ SpriteFont* SpriteFontLoader::LoadContent(const wstring& assetFile)
 	char f = pBinReader->Read<char>();
 	if (!(b == 66 && m == 77 && f == 70))
 	{
-		Logger::LogError(L"SpriteFontLoader::LoadContent > Not a valid .fnt font");
-		return nullptr;
+		//Logger::LogError(L"SpriteFontLoader::LoadContent > Not a valid .fnt font");
+		//return nullptr;
 	}
 	//Parse the Identification bytes (B,M,F)
 	//If Identification bytes doesn't match B|M|F,

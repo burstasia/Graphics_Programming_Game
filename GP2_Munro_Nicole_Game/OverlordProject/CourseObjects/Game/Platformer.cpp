@@ -21,6 +21,7 @@
 #include "GameOverScreen.h"
 #include "Score.h"
 #include "Materials/SkinnedDiffuseMaterial.h"
+#include "Prefabs\Prefabs.h"
 
 Platformer::Platformer():
 	GameScene(L"SpyroScene"),
@@ -91,6 +92,11 @@ void Platformer::Initialize(const GameContext & gameContext)
 	//HUD
 	/*m_pScore = new Score();
 	AddChild(m_pScore);*/
+
+
+	//skybox
+	auto skybox = new SkyBoxPrefab();
+	AddChild(skybox);
 
 	gameContext.pInput->AddInputAction(InputAction(11, Released, VK_TAB));
 	gameContext.pInput->AddInputAction(InputAction(32, Released, VK_RETURN));
