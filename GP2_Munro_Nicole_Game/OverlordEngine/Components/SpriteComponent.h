@@ -31,7 +31,7 @@ private:
 	wstring m_SpriteAsset;
 	XMFLOAT2 m_Pivot;
 	XMFLOAT4 m_Color;
-	XMFLOAT2 m_Pos;
+	XMFLOAT2 m_Pos = {0.0f,0.0f};
 
 	bool m_IsVisible;
 

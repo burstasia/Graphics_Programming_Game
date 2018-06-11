@@ -89,6 +89,15 @@ void Platformer::Initialize(const GameContext & gameContext)
 	m_pGameOverScreen = new GameOverScreen();
 	AddChild(m_pGameOverScreen);
 
+	//controls
+	auto controlGameObject = new GameObject();
+	m_pControls = new SpriteComponent(L"./Resources/Textures/Controls.png");
+	controlGameObject->AddComponent(m_pControls);
+	m_pControls->SetVisible(false);
+	m_pControls->SetPosition({ 0.0f, 0.0f });
+	AddChild(controlGameObject);
+
+	
 	//HUD
 	/*m_pScore = new Score();
 	AddChild(m_pScore);*/
@@ -186,7 +195,9 @@ void Platformer::Update(const GameContext & gameContext)
 			{
 			case 0:
 				//play
-				ResetLevel(gameContext);
+				m_pMainMenu->SetVisible(false);
+				m_pControls->SetVisible(true);
+				m_MainGameState = MainGameState::CONTROLS;
 				break;
 
 			case 1:
@@ -194,7 +205,21 @@ void Platformer::Update(const GameContext & gameContext)
 				break;
 			}
 		}
+		break;
+	case Platformer::CONTROLS:
+
+		gameContext.pGameTime->Stop();
+		
+		if (gameContext.pInput->IsActionTriggered(32))
+		{
+			m_MainGameState = MainGameState::PLAYING;
+			m_pControls->SetVisible(false);
+			gameContext.pGameTime->Start();
+		}
+
+		break;
 	}
+	
 }
 
 void Platformer::Draw(const GameContext & gameContext)
