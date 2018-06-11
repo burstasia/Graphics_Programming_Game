@@ -49,11 +49,11 @@ void MainMenu::Update(const GameContext & gameContext)
 
 		switch (m_Pos)
 		{
-		case 0:
+		case 4:
 			m_MainMenuState = MainMenuState::PLAY;
 			break;
 
-		case 1:
+		case 5:
 			m_MainMenuState = MainMenuState::EXIT;
 			break;
 		}

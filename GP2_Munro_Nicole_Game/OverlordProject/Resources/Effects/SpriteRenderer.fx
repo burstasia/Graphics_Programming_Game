@@ -18,7 +18,8 @@ BlendState EnableBlending
 
 DepthStencilState NoDepth
 {
-    DepthEnable = FALSE;
+    DepthEnable = TRUE;
+    DepthWriteMask = ALL;
 };
 
 RasterizerState BackCulling
@@ -145,7 +146,9 @@ void MainGS(point VS_DATA vertex[1], inout TriangleStream<GS_DATA> triStream)
 //************
 float4 MainPS(GS_DATA input) : SV_TARGET {
 
-	return gSpriteTexture.Sample(samPoint, input.TexCoord) * input.Color;	
+    float4 sample = gSpriteTexture.Sample(samPoint, input.TexCoord) * input.Color;
+    clip(sample.a < 0.1f ? -1 : 1);
+	return sample;
 }
 
 // Default Technique
@@ -154,7 +157,7 @@ technique11 Default {
 	pass p0 {
 		SetRasterizerState(BackCulling);
 		SetBlendState(EnableBlending,float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-		//SetDepthStencilState(NoDepth,0);
+		SetDepthStencilState(NoDepth,0);
 		SetVertexShader(CompileShader(vs_4_0, MainVS()));
 		SetGeometryShader(CompileShader(gs_4_0, MainGS()));
 		SetPixelShader(CompileShader(ps_4_0, MainPS()));

@@ -13,7 +13,7 @@
 #include "Scenegraph/GameScene.h"
 #include "Graphics\ModelAnimator.h"
 
-#include "Materials/DiffuseMaterial.h"
+#include "../../Materials/DiffuseMaterial.h"
 #include "EnemyCollision.h"
 #include "EnemyCollisionPlayer.h"
 #include "Fireball.h"

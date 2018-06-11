@@ -52,7 +52,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -114,7 +113,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClCompile Include="CourseObjects\Game\EnemyCollision.cpp" />
     <ClCompile Include="CourseObjects\Game\EnemyCollisionPlayer.cpp" />
     <ClCompile Include="CourseObjects\Game\GameOverScreen.cpp" />
-    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="CourseObjects\Game\MainMenu.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial.cpp" />
     <ClCompile Include="Materials\ColorMaterial.cpp" />
@@ -171,7 +170,7 @@ xcopy "$(OV_LIBS)\Fmod\bin\*" "$(OutDir)" /y/D</Command>
     <ClInclude Include="CourseObjects\Game\EnemyCollision.h" />
     <ClInclude Include="CourseObjects\Game\EnemyCollisionPlayer.h" />
     <ClInclude Include="CourseObjects\Game\GameOverScreen.h" />
-    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="CourseObjects\Game\MainMenu.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\DiffuseMaterial.h" />
     <ClInclude Include="Materials\ColorMaterial.h" />

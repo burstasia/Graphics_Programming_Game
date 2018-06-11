@@ -6,7 +6,7 @@
 #include "Components\TransformComponent.h"
 #include "Components\ParticleEmitterComponent.h"
 #include "Components\ModelComponent.h"
-#include <Materials/ColorMaterial.h>
+#include "../../Materials/ColorMaterial.h"
 #include <Diagnostics/DebugRenderer.h>
 
 ParticleTestScene::ParticleTestScene(void) :

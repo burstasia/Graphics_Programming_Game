@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MainCharacter.h"
 #include "Components/Components.h"
-#include "Materials/SkinnedDiffuseMaterial.h"
+#include "../../Materials/SkinnedDiffuseMaterial.h"
 #include "Graphics\ModelAnimator.h"
 #include "../Week2/Character.h"
 #include "Level.h"

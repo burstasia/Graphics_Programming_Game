@@ -13,14 +13,14 @@
 
 #include "../Week2/Character.h"
 
-#include "Materials/DiffuseMaterial.h"
+#include "../../Materials/DiffuseMaterial.h"
 
 #include "MainCharacter.h"
 #include "PauseScreen.h"
 #include "MainMenu.h"
 #include "GameOverScreen.h"
 #include "Score.h"
-#include "Materials/SkinnedDiffuseMaterial.h"
+#include "../../Materials/SkinnedDiffuseMaterial.h"
 #include "Prefabs\Prefabs.h"
 
 Platformer::Platformer():
@@ -154,6 +154,7 @@ void Platformer::Update(const GameContext & gameContext)
 				break;
 
 			case 3:
+				PostQuitMessage(1);
 				break;
 			}
 		}
@@ -181,6 +182,7 @@ void Platformer::Update(const GameContext & gameContext)
 
 			case 2:
 				//exit
+				PostQuitMessage(1);
 				break;
 
 			}
@@ -202,6 +204,7 @@ void Platformer::Update(const GameContext & gameContext)
 
 			case 1:
 				//exit
+				PostQuitMessage(1);
 				break;
 			}
 		}

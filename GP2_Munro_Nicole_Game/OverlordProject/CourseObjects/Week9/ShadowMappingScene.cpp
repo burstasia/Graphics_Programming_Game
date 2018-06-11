@@ -6,9 +6,8 @@
 
 #include "Content\ContentManager.h"
 #include "Components\Components.h"
-
-#include <Materials/Shadow/DiffuseMaterial_Shadow.h>
-#include <Materials/Shadow/SkinnedDiffuseMaterial_Shadow.h>
+#include "../../Materials/Shadow/DiffuseMaterial_Shadow.h"
+#include "../../Materials/Shadow/SkinnedDiffuseMaterial_Shadow.h"
 
 //ShadowMappingScene::ShadowMappingScene(void) :
 //	GameScene(L"ShadowMappingScene")

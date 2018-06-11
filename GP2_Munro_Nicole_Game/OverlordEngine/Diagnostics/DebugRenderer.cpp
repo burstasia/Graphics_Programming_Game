@@ -15,7 +15,7 @@ ID3DX11EffectMatrixVariable* DebugRenderer::m_pWvpVariable = nullptr;
 vector<VertexPosCol> DebugRenderer::m_LineList = vector<VertexPosCol>();
 vector<VertexPosCol> DebugRenderer::m_FixedLineList = vector<VertexPosCol>();
 UINT DebugRenderer::m_FixedBufferSize = 0;
-bool DebugRenderer::m_RendererEnabled = true;
+bool DebugRenderer::m_RendererEnabled = false;
 
 DebugRenderer::DebugRenderer(void)
 {

@@ -6,7 +6,7 @@
 #include "Scenegraph/GameObject.h"
 #include "Physx\PhysxProxy.h"
 
-#include "Materials/ColorMaterial.h"
+#include "../../Materials/ColorMaterial.h"
 #include "Content/ContentManager.h"
 
 #include "../Week2/Character.h"
